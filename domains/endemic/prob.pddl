@@ -12,3 +12,7 @@
   (= (total_per_city_count delhi) 1)
   (= (total_disease_count) 1)
 )
+(:goal
+    (integrity_check)
+)
+)
