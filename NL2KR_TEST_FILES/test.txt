@@ -1,0 +1,2 @@
+how can player1 go to bombay? (at_end (in_city player1 bombay))
+how can player1 reach delhi? (at_end (in_city player1 delhi))
