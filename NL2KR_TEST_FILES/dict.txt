@@ -3,12 +3,12 @@ paris	N	paris
 chicago	N	chicago
 bombay	N	bombay
 beijing N       beijing
-go      S\N/N	#x.#y.(in_city y x)
-reach   S\N/N	#x.#y.(in_city y x)
-visit   S\N/N	#x.#y.(in_city y x)
+go      S\N/N	l(x,l(y,in_city(y,x)))
+reach   S\N/N	l(x,l(y,in_city(y,x)))
+visit   S\N/N	l(x,l(y,in_city(y,x)))
 player1 N       player1
 player2 N       player2
 player3 N       player3
 player4 N       player4
-can	S/S	#x.(at_end x)
-how	S/S	#x.x
+can	S/S	l(x,at_end(x))
+how	S/S	l(x,x)
