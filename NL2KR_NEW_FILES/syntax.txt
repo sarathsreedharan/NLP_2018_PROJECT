@@ -1,0 +1,10 @@
+how	S/S
+what	S/S
+can	S/S
+should	S/S
+must	S/S
+goes	S\NP/NP
+reach	S\NP/NP
+do	S/S
+to	NP/NP
+to	(S\NP)/(S\NP)

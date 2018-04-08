@@ -1,0 +1,4 @@
+how can player1 go to delhi	atend(incity(player1, delhi))
+what should player1 do to reach delhi?	atend(incity(player1, delhi))
+how can player1 end up in delhi?	atend(incity(player1, delhi))
+what must player1 do to reach delhi?	atend(incity(player1, delhi))
