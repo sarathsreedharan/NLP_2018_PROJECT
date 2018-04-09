@@ -1,0 +1,7 @@
+what	S/S
+should	S/S
+to	S/S
+do	S/S
+save	S/NP
+I	S/S
+Delhi	NP

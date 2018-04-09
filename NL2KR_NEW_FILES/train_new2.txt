@@ -1,0 +1,3 @@
+Why does player1 need to go to Delhi to reach Paris?	and(atend(incity(player1, paris)), always(not(incity(player1,  Delhi))))
+Why does player1 need to visit Delhi to reach Paris?	and(atend(incity(player1, paris)), always(not(incity(player1,  Delhi))))
+Why does player1 need to cross Delhi to reach Paris?	and(atend(incity(player1, paris)), always(not(incity(player1,  Delhi))))

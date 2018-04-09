@@ -25,7 +25,7 @@ to	(S\NP)/(S\NP)
 do	(S\NP)/(S\NP)
 do	S/S
 cure	S/NP
-save	(S/NP)
+save	(S/NP)/NP
 their	NP/NP
 I	S/S
 a	S/S

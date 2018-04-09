@@ -1,15 +1,25 @@
 delhi	[NP]	delhi	1.0
 to	[NP/NP]	#x.x	1.0
+to	[S/S]	#x.x	1.0
+moves	[S/S]	#x.x	1.0
 to	[(S\NP)/(S\NP)]	#x.x	1.0
 end	[(S\NP)]	#x.x	1.0
 up	[(S\NP)\(S\NP)]	#x.x	1.0
 do	[(S\NP)/(S\NP)]	#x.x	1.0
 must	[S/S]	#x.x	1.0
+should	[S/S]	#x.x	1.0
 goes	[(S\NP)/NP]	#x.#y.incity(y,x)	1.0
 reach	[(S\NP)/NP]	#x.#y.incity(y,x)	1.0
 in	[(S\NP)\(S\NP)/NP]	#x.#y.incity(y,x)	1.0
 player1	[NP]	player1	1.0
 can	[S/S]	#x.atend(x)	1.0
+should	[S/S]	#x.atend(x)	1.0
 how	[S/S]	#x.x	1.0
 what	[S/S]	#x.x	1.0
 cure	[S/NP]	#x.equals(totalPerCityCount(x),zero)
+save	[S/NP]	#x.equals(totalPerCityCount(x),zero)
+cure	([S/NP])		#x.equals(totalPerCityCount(x),zero)
+I	([S/S])	#x.x
+Delhi	([N])	#x224.x224 @ Delhi
+How	([S/S])	#x.x
+can	([S/S])	#x225.atend(x225)
