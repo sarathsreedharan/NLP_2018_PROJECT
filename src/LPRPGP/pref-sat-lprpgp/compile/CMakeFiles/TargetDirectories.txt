@@ -1,0 +1,4 @@
+/media/data_mount/mycode/NLP_PROJ_FILES/LPRPGP/pref-sat-lprpgp/compile/VALfiles/CMakeFiles/Inst.dir
+/media/data_mount/mycode/NLP_PROJ_FILES/LPRPGP/pref-sat-lprpgp/compile/lprpgp/CMakeFiles/LPRPGCommon.dir
+/media/data_mount/mycode/NLP_PROJ_FILES/LPRPGP/pref-sat-lprpgp/compile/VALfiles/parsing/CMakeFiles/ParsePDDL.dir
+/media/data_mount/mycode/NLP_PROJ_FILES/LPRPGP/pref-sat-lprpgp/compile/lprpgp/CMakeFiles/lprpgp-cplex.dir
