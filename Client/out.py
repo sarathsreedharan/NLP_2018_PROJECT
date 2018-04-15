@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'untitled2.ui'
+# Form implementation generated from reading ui file 'design.ui'
 #
-# Created: Sat Apr 14 17:50:57 2018
+# Created: Sat Apr 14 20:00:30 2018
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -38,9 +38,9 @@ class Ui_Frame(object):
         self.location_label.setGeometry(QtCore.QRect(10, 140, 83, 22))
         self.location_label.setObjectName(_fromUtf8("location_label"))
         self.cards_label = QtGui.QLabel(Frame)
-        self.cards_label.setGeometry(QtCore.QRect(20, 270, 83, 22))
+        self.cards_label.setGeometry(QtCore.QRect(20, 230, 83, 22))
         self.cards_label.setObjectName(_fromUtf8("cards_label"))
-        self.location2_text = QtGui.QTextBrowser(Frame)
+        self.location2_text = QtGui.QPlainTextEdit(Frame)
         self.location2_text.setGeometry(QtCore.QRect(359, 130, 256, 41))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -50,9 +50,9 @@ class Ui_Frame(object):
         self.location2_text.setBaseSize(QtCore.QSize(1000, 1000))
         self.location2_text.setObjectName(_fromUtf8("location2_text"))
         self.player2_cards = QtGui.QListWidget(Frame)
-        self.player2_cards.setGeometry(QtCore.QRect(360, 180, 256, 161))
+        self.player2_cards.setGeometry(QtCore.QRect(360, 180, 256, 111))
         self.player2_cards.setObjectName(_fromUtf8("player2_cards"))
-        self.location3_text = QtGui.QTextBrowser(Frame)
+        self.location3_text = QtGui.QPlainTextEdit(Frame)
         self.location3_text.setGeometry(QtCore.QRect(619, 130, 256, 41))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -62,7 +62,7 @@ class Ui_Frame(object):
         self.location3_text.setBaseSize(QtCore.QSize(1000, 1000))
         self.location3_text.setObjectName(_fromUtf8("location3_text"))
         self.player3_cards = QtGui.QListWidget(Frame)
-        self.player3_cards.setGeometry(QtCore.QRect(620, 180, 256, 161))
+        self.player3_cards.setGeometry(QtCore.QRect(620, 180, 256, 111))
         self.player3_cards.setObjectName(_fromUtf8("player3_cards"))
         self.player1_label = QtGui.QLabel(Frame)
         self.player1_label.setGeometry(QtCore.QRect(180, 90, 83, 22))
@@ -82,7 +82,7 @@ class Ui_Frame(object):
         self.pushButton = QtGui.QPushButton(Frame)
         self.pushButton.setGeometry(QtCore.QRect(820, 770, 211, 51))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
-        self.location1_text = QtGui.QTextBrowser(Frame)
+        self.location1_text = QtGui.QPlainTextEdit(Frame)
         self.location1_text.setGeometry(QtCore.QRect(99, 130, 256, 41))
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -92,8 +92,39 @@ class Ui_Frame(object):
         self.location1_text.setBaseSize(QtCore.QSize(1000, 1000))
         self.location1_text.setObjectName(_fromUtf8("location1_text"))
         self.player1_cards = QtGui.QListWidget(Frame)
-        self.player1_cards.setGeometry(QtCore.QRect(100, 180, 256, 161))
+        self.player1_cards.setGeometry(QtCore.QRect(100, 180, 256, 111))
         self.player1_cards.setObjectName(_fromUtf8("player1_cards"))
+        self.addCard1 = QtGui.QPlainTextEdit(Frame)
+        self.addCard1.setGeometry(QtCore.QRect(150, 300, 161, 41))
+        self.addCard1.setObjectName(_fromUtf8("addCard1"))
+        self.pushButton_2 = QtGui.QPushButton(Frame)
+        self.pushButton_2.setGeometry(QtCore.QRect(320, 300, 41, 32))
+        self.pushButton_2.setObjectName(_fromUtf8("pushButton_2"))
+        self.pushButton_3 = QtGui.QPushButton(Frame)
+        self.pushButton_3.setGeometry(QtCore.QRect(100, 300, 41, 32))
+        self.pushButton_3.setObjectName(_fromUtf8("pushButton_3"))
+        self.addCard2 = QtGui.QPlainTextEdit(Frame)
+        self.addCard2.setGeometry(QtCore.QRect(410, 300, 161, 41))
+        self.addCard2.setObjectName(_fromUtf8("addCard2"))
+        self.pushButton_4 = QtGui.QPushButton(Frame)
+        self.pushButton_4.setGeometry(QtCore.QRect(360, 300, 41, 32))
+        self.pushButton_4.setObjectName(_fromUtf8("pushButton_4"))
+        self.pushButton_5 = QtGui.QPushButton(Frame)
+        self.pushButton_5.setGeometry(QtCore.QRect(580, 300, 41, 32))
+        self.pushButton_5.setObjectName(_fromUtf8("pushButton_5"))
+        self.addCard3 = QtGui.QPlainTextEdit(Frame)
+        self.addCard3.setGeometry(QtCore.QRect(670, 300, 161, 41))
+        self.addCard3.setObjectName(_fromUtf8("addCard3"))
+        self.pushButton_6 = QtGui.QPushButton(Frame)
+        self.pushButton_6.setGeometry(QtCore.QRect(620, 300, 41, 32))
+        self.pushButton_6.setObjectName(_fromUtf8("pushButton_6"))
+        self.pushButton_7 = QtGui.QPushButton(Frame)
+        self.pushButton_7.setGeometry(QtCore.QRect(840, 300, 41, 32))
+        self.pushButton_7.setObjectName(_fromUtf8("pushButton_7"))
+
+        self.addCard3.setPlainText("HWER")
+        print (self.addCard3.toPlainText())
+
 
         self.retranslateUi(Frame)
         QtCore.QMetaObject.connectSlotsByName(Frame)
@@ -106,6 +137,12 @@ class Ui_Frame(object):
         self.player2_label.setText(_translate("Frame", "Player 2", None))
         self.player3_label.setText(_translate("Frame", "Player 3", None))
         self.pushButton.setText(_translate("Frame", "PushButton", None))
+        self.pushButton_2.setText(_translate("Frame", "+", None))
+        self.pushButton_3.setText(_translate("Frame", "---", None))
+        self.pushButton_4.setText(_translate("Frame", "---", None))
+        self.pushButton_5.setText(_translate("Frame", "+", None))
+        self.pushButton_6.setText(_translate("Frame", "---", None))
+        self.pushButton_7.setText(_translate("Frame", "+", None))
 
 
 if __name__ == "__main__":

@@ -64,7 +64,6 @@ class Ui_Frame(object):
 
         self.player2_cards = QtGui.QListWidget(Frame)
         self.player2_cards.setGeometry(QtCore.QRect(360, 180, 256, 161))
-        self.player2_cards.setObjectName(_fromUtf8("player2_cards"))
 
 
         self.location3_text = QtGui.QTextBrowser(Frame)
@@ -130,8 +129,7 @@ class Ui_Frame(object):
 
         self.initBoard()
         QObject.connect(self.pushButton,SIGNAL("clicked()"),backend.recognize)
-        s=pyqtBoundSignal("clicked()")
-        # s.emit()
+
 
     def initBoard(self):
         self.location1_text.setText("Arizona")

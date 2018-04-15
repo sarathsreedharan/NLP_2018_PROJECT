@@ -1,8 +1,8 @@
 def getPlayerLocationPredicate(player):
     #(in_city p1 london)
 
-    template = '(in_city %(player)s %(city)s)'
-    return template % dict(player=player['name'], city=player['location'])
+    template = '(in_city %(name)s %(city)s)'
+    return template % player
 
 def getPlayerHasCardPredicates(player):
     #(has_city_card p1 delhi)
@@ -12,22 +12,23 @@ def getPlayerHasCardPredicates(player):
     for card in player['cards']:
         predicates.append(template % dict(player=player['name'], card=card))
 
-    return  predicates
+    return predicates
 
 def getGameVariablePredicate(game_vars):
 
     template = '(= (research_station_count) %(research_station_count)s)\n' \
                '(= (total_disease_count) %(total_disease_count)s)'
 
-    return template % dict(research_station_count=game_vars['research_station_count'], total_disease_count=game_vars['total_disease_count'])
+    return template % game_vars
 
 
 def getCityDiseaseCountPredicates(city_disease_count):
+
     template = '(= (total_per_city_count %(city_name)s) %(disease_count)s)'
 
     predicates = []
     for city in city_disease_count:
-        predicates.append(template % dict(city_name=city['city_name'], disease_count=city['disease_count']))
+        predicates.append(template % city)
 
     return predicates
 
@@ -47,10 +48,10 @@ def getBoardModelPredicates(model):
 
 
 if __name__ == "__main__":
-    players=[
-                {'name':"player1", "location":"London", "cards":['Delhi', 'Mumbai']},
-                {'name': "player2", "location": "Delhi", "cards": ['London', 'Atlanta']},
-                {'name': "player3", "location": "Arizona", "cards": ['Egypt', 'Johannesburg']},
+    players = [
+                {'name':"player1", "city":"London", "cards":['Delhi', 'Mumbai']},
+                {'name': "player2", "city": "Delhi", "cards": ['London', 'Atlanta']},
+                {'name': "player3", "city": "Arizona", "cards": ['Egypt', 'Johannesburg']},
             ]
 
     city_disease_count = [
