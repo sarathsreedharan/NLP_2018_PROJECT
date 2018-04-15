@@ -22,12 +22,12 @@ def getGameVariablePredicate(game_vars):
     return template % game_vars
 
 
-def getCityDiseaseCountPredicates(city_disease_count):
+def getCityDiseaseCountPredicates(cities):
 
     template = '(= (total_per_city_count %(city_name)s) %(disease_count)s)'
 
     predicates = []
-    for city in city_disease_count:
+    for city in cities:
         predicates.append(template % city)
 
     return predicates
@@ -37,7 +37,7 @@ def getBoardModelPredicates(model):
     strs = []
 
     strs.append(getGameVariablePredicate(model['game_variables']))
-    strs.extend(getCityDiseaseCountPredicates(model['city_disease_count']))
+    strs.extend(getCityDiseaseCountPredicates(model['cities']))
 
     for player in model['players']:
         strs.append(getPlayerLocationPredicate(player))
@@ -48,21 +48,22 @@ def getBoardModelPredicates(model):
 
 
 if __name__ == "__main__":
+
     players = [
-                {'name':"player1", "city":"London", "cards":['Delhi', 'Mumbai']},
-                {'name': "player2", "city": "Delhi", "cards": ['London', 'Atlanta']},
-                {'name': "player3", "city": "Arizona", "cards": ['Egypt', 'Johannesburg']},
-            ]
+        {'name': "player1", "city": "London", "cards": ['Delhi', 'Mumbai']},
+        {'name': "player2", "city": "Delhi", "cards": ['London', 'Atlanta']},
+        {'name': "player3", "city": "Arizona", "cards": ['Egypt', 'Johannesburg']},
+    ]
 
-    city_disease_count = [
-                            {"city_name":"Delhi", "disease_count":3},
-                            {"city_name": "Mumbai", "disease_count": 1},
-                            {"city_name": "Arizona", "disease_count": 2}
-                          ]
+    cities = [
+        {"city_name": "Delhi", "disease_count": 3, "research_station_count": 0},
+        {"city_name": "Mumbai", "disease_count": 1, "research_station_count": 0},
+        {"city_name": "Arizona", "disease_count": 2, "research_station_count": 0}
+    ]
 
-    game_variables = { "research_station_count":0, "total_disease_count":3}
+    game_variables = {"research_station_count": 0, "total_disease_count": 3}
 
-    model = {'players':players,'city_disease_count':city_disease_count,'game_variables':game_variables}
+    model = {'players': players, 'cities': cities, 'game_variables': game_variables}
 
     getBoardModelPredicates(model)
 

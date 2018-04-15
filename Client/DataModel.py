@@ -1,9 +1,19 @@
 import Util as util
+import pprint
 
 class Model(object):
     def __init__(self):
         self.model = {'players': [], 'cities': [], 'config': {}}
         self.playerNameNumberMap = {}
+
+    def initModel(self, model):
+        self.model = model
+        for index,player in enumerate(self.model['players']):
+            self.playerNameNumberMap[player['name']] = index
+
+    def show(self):
+        pp = pprint.PrettyPrinter(indent=4)
+        pp.pprint (self.model)
 
     def __setPlayerName(self, playerNo, name):
         self.model['players'][playerNo]['name'] = name
@@ -15,6 +25,7 @@ class Model(object):
         self.model['players'][playerNo]['cards'] = card_list
 
     def __removeCardFromPlayer(self,playerNo,card):
+        card = card.lower()
         card_list = self.model['players'][playerNo]['cards']
         card_list.remove(card)
 
