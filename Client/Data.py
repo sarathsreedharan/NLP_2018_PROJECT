@@ -57,6 +57,11 @@ class Model(object):
 
 
 
+modelObj = Model()
+
+
+
+
 def main():
     players = [
         {'name': "player1", "city": "London", "cards": ['Delhi', 'Mumbai']},

@@ -9,7 +9,6 @@
 
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QObject, SIGNAL
-import Data
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -29,7 +28,7 @@ except AttributeError:
 
 
 class Ui_Frame(object):
-    def setupUi(self, Frame, model):
+    def setupUi(self, Frame):
         Frame.setObjectName(_fromUtf8("Frame"))
         Frame.resize(1066, 837)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Preferred)
@@ -60,13 +59,10 @@ class Ui_Frame(object):
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
 
         self.createPlayerLabels(3)
-        self.createComboBoxes(3, model['cities'])
+        self.createComboBoxes(3)
         self.createCardDecks(3)
 
         self.retranslateUi(Frame)
-
-        self.cityList = []
-
         QtCore.QMetaObject.connectSlotsByName(Frame)
 
     def createPlayerLabels(self, playerCount):
@@ -76,19 +72,17 @@ class Ui_Frame(object):
             label.setGeometry(labelGeometires[i])
             label.setText("Unnamed")
 
-    def createComboBoxes(self, playerCount, cities):
+    def createComboBoxes(self, playerCount):
         comboBoxGeometries = [QtCore.QRect(100, 130, 251, 41), QtCore.QRect(360, 130, 251, 41),
                               QtCore.QRect(620, 130, 251, 41)]
-
-        city_list = []
-        for city in cities:
-            city_list.append(city['city_name'])
-        self.comboBoxes = []
+        cities = ["A", "B", "C"]
+        comboBoxes = []
         for i in range(playerCount):
             comboBox = QtGui.QComboBox(Frame)
-            comboBox.addItems(city_list)
+            comboBox.addItems(cities)
             comboBox.setGeometry(comboBoxGeometries[i])
-            self.comboBoxes.append(comboBox)
+            comboBox.setCurrentIndex(1)
+            comboBoxes.append(comboBox)
 
     def createCardDecks(self, playerCount):
         cardDecks = []
@@ -101,7 +95,6 @@ class Ui_Frame(object):
             {"box": QtCore.QRect(620, 180, 256, 111), "buttonLeft": QtCore.QRect(620, 300, 41, 32),
              "buttonRight": QtCore.QRect(840, 300, 41, 32), "addCard": QtCore.QRect(670, 300, 161, 41)}
         ]
-
         for i in range(playerCount):
             cardDeck = QtGui.QListWidget(Frame)
             cardDeck.setGeometry(playerCardGeometries[i]['box'])
@@ -113,8 +106,6 @@ class Ui_Frame(object):
             pushButtonRight = QtGui.QPushButton(Frame)
             pushButtonRight.setGeometry(playerCardGeometries[i]['buttonRight'])
             pushButtonRight.setText('+')
-            QObject.connect(pushButtonRight, SIGNAL("clicked()"), lambda obj={"func":"add_card", "args":str(i)}: self.onClicked(obj))
-
 
             addCard = QtGui.QPlainTextEdit(Frame)
             addCard.setGeometry(playerCardGeometries[i]['addCard'])
@@ -122,27 +113,11 @@ class Ui_Frame(object):
             cardDecks.append(cardDeck)
 
     def onClicked(self,obj):
-        self.cityList.pop()
         func = getattr(self,obj['func'])
         func(obj['args'])
 
-    def doRepaint(self,model):
-        #TODO populate UI from model after every change
-        self.cityList = []
-        for city in model['cities']:
-            self.cityList.append(city['city_name'])
-
-        for i, player in enumerate(model['players']):
-            self.comboBoxes[i].clear()
-            self.comboBoxes[i].addItems(self.cityList)
-            self.comboBoxes[i].setCurrentIndex(self.cityList.index(player['city']))
-
-
     def remove_selected_cards(self, player):
         print "Called"+ str(player)
-
-    def add_card(self, player):
-        print "Called add_card"+ str(player)
 
     def retranslateUi(self, Frame):
         Frame.setWindowTitle(_translate("Frame", "Frame", None))
@@ -154,29 +129,10 @@ class Ui_Frame(object):
 if __name__ == "__main__":
     import sys
 
-    players = [
-        {'name': "player1", "city": "London", "cards": ['Delhi', 'Mumbai']},
-        {'name': "player2", "city": "Delhi", "cards": ['London', 'Atlanta']},
-        {'name': "player3", "city": "Arizona", "cards": ['Egypt', 'Johannesburg']},
-    ]
-
-    cities = [
-        {"city_name": "London", "disease_count": 3, "research_station_count": 0},
-        {"city_name": "Delhi", "disease_count": 1, "research_station_count": 0},
-        {"city_name": "Arizona", "disease_count": 2, "research_station_count": 0}
-    ]
-
-    game_variables = {"research_station_count": 0, "total_disease_count": 3}
-
-    model = {'players': players, 'cities': cities, 'game_variables': game_variables}
-
-
     app = QtGui.QApplication(sys.argv)
     Frame = QtGui.QFrame()
     ui = Ui_Frame()
-    ui.setupUi(Frame, model)
-    ui.doRepaint(model)
-
+    ui.setupUi(Frame)
     Frame.show()
     sys.exit(app.exec_())
 
