@@ -81,10 +81,10 @@ def write_domain_file_from_state(state, domain_source):
     with open(temp_domainFileName, 'w') as temp_domain_file:
 
         predicateString = '\n'.join(['( {} )'.format(item) for item in predicateList])
-        actionString    = '\n'.join(['(:action {}\n:parameters ({})\n:precondition\n(and\n{}\n)\n:effect\n(and\n{}\n)\n)\n'\
-                                     .format(key, actionList[key]['parameters'],'\n'.join(['( {} )'.format(p) for p in actionList[key]['precondition']]), \
-                                             '{}\n{}'.format('\n'.join(['( {} )'.format(p) for p in actionList[key]['add-effect']]), \
-                                                             '\n'.join(['(not ( {} ))'.format(p) for p in actionList[key]['delete-effect']]))) for key in actionList.keys()])
+        actionString    = '\n'.join(['(:action {}\n:parameters ({})\n:precondition\n(and\n{}\n)\n:effect\n(and\n{}\n)\n)\n;new_act'\
+                                     .format(key, actionList[key]['parameters'],'\n'.join(['{}'.format(p) for p in actionList[key]['precondition']]), \
+                                             '{}\n{}'.format('\n'.join([' {} '.format(p) for p in actionList[key]['add-effect']]), \
+                                                             '\n'.join(['(not {} )'.format(p) for p in actionList[key]['delete-effect']]))) for key in actionList.keys()])
         
         temp_domain_file.write(template_domain.format(actionString))
 
@@ -106,7 +106,7 @@ def read_state_from_domain_file(domainFileName):
         try:
 #            preconditions  = {re.search('\(((?!not).*?)\)', item).group(1).strip() : not 'not ' in item \
 #                                 for item in re.findall('(\(not[\s+]*\(.*?\)[\s+]*\)|\(.*?\))', re.search(':precondition[\s+]*\(and(.*?)\)[\s+]*:', description).group(1))}
-            prec_scr = re.search(':precondition[\s+]*\(and[\s+]*(.*?)\)[\s+]*:effect', description).group(1)[1:-1]
+            prec_scr = re.search(':precondition[\s+]*\(and[\s+]*(.*?)\)[\s+]*:effect', description).group(1).strip()[1:-1]
             preconditions  = ["("+i+")" for i in prec_scr.split(') (')]
         except:
             preconditions  = []
@@ -116,13 +116,16 @@ def read_state_from_domain_file(domainFileName):
             all_effects = re.search(':effect[\s+]*\(and[\s+]*(.*?)\)[\s+]*\)[\s+]*;new_act$', description).group(1)[1:-1]
             add_effects = []
             del_effects = []
-            for i in prec_scr.split(') ('):
+            print ("prec_scr",all_effects)
+            for i in all_effects.split(') ('):
                 if "not" in i:
-                    del_effects.append('('+re.search('not (.*)',i).group(1)[0]+')')
+                    print i
+                    del_effects.append(i.replace("not ",""))#re.search('not[\s+]*(.*)',i).group(1)[0])
                 else:
                     add_effects.append('('+i+')')
         except Exception as exc:
             print ("Error, Exc", exc)
+        #print "action_dict",[action_name, parameters, preconditions, add_effects, del_effects]
         return [action_name, parameters, preconditions, add_effects, del_effects]
     
     ''''''
@@ -130,17 +133,18 @@ def read_state_from_domain_file(domainFileName):
     with open(domainFileName, 'r') as domain_file:
         action_dict = {item.split(' ')[1] : PDDLaction(item) for item in re.findall('\(:action.*?\)[\s+]*\)[\s+]*;new_act', re.sub('[\s+]', ' ', domain_file.read()))}
     ''''''
-
+    #print "action_dict",action_dict
     state = []
     for key in action_dict.keys():
         actionName        = action_dict[key][0]
         state.append('{}-has-parameters-{}'.format(actionName, action_dict[key][1]))
         for precondition in action_dict[key][2]:
-            state.append('{}-has-precondition-{}'.format(actionName, precondition[0]))
+            state.append('{}-has-precondition-{}'.format(actionName, precondition))
            
         for effect in action_dict[key][3]:
-            if effect[1]: state.append('{}-has-add-effect-{}'.format(actionName, effect[0]))
-            else:         state.append('{}-has-delete-effect-{}'.format(actionName, effect[0]))
+            state.append('{}-has-add-effect-{}'.format(actionName, effect))
+        for effect in action_dict[key][4]:
+            state.append('{}-has-delete-effect-{}'.format(actionName, effect))
     return state
 
 
@@ -180,6 +184,7 @@ Method :: validate plan given PDDL domain and problem files
 #    return eval(output)
 
 def validate_plan(domainFileName, problemFileName, planFileName):
+    print ("val cmd",__VAL_PLAN_CMD__.format(domainFileName, problemFileName, planFileName))
     output = os.popen(__VAL_PLAN_CMD__.format(domainFileName, problemFileName, planFileName)).read().strip()
     return eval(output)
 
