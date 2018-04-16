@@ -17,7 +17,7 @@
   (= (total_disease_count) 1)
   (in_city p1 london)
   (has_city_card p1 delhi)
-  (in_city p2  delhi)
+  (in_city p2 london)
 )
 (:goal
     (and
@@ -26,7 +26,7 @@
 )
 (:constraints
 (and 
-    (preference p1 (at end (has_city_card p1 delhi)) )
+    (preference p1 (at end (has_research_station delhi)) )
 )
 )
 (:metric minimize (+ (* 1.6 (is-violated p1)) 0))

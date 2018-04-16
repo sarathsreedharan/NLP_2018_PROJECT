@@ -28,9 +28,14 @@ class Problem:
         ground(robotModelFile, problemFile)
         self.groundedRobotPlanFile   = '../domains/cache_grounded_plan.dat'
 
-        with open(self.groundedRobotPlanFile, 'w') as plan_file:
-            plan_file.write('\n'.join(['({})'.format(item) for item in self.plan]) + '\n; cost = {} (unit cost)'.format(self.cost))
 
+        with open(self.groundedRobotPlanFile, 'w') as plan_file:
+            plan_file.write('\n'.join(['{}'.format(item) for item in self.plan]) + '\n; cost = {} (unit cost)'.format(self.cost))
+
+        self.foil_file = '../domains/foil_plan.dat'
+
+        with open(self.foil_file, 'w') as plan_file:
+            plan_file.write('\n'.join(['{}'.format(item) for item in self.foil]) + '\n')
 
         self.ground_state = read_state_from_domain_file('tr-domain.pddl')
         
@@ -46,10 +51,12 @@ class Problem:
     def isGoal(self, state):
         temp_problem = 'tr-problem.pddl'
         temp_domain = write_domain_file_from_state(state, self.domainTemplate)
+        print ("Here????")
         feasibility_flag = validate_plan(temp_domain, temp_problem, self.groundedRobotPlanFile)
         if not feasibility_flag:
             return False
-        foil_flag = validate_plan(temp_domain, temp_problem, self.foil)
+        foil_flag = validate_plan(temp_domain, temp_problem, self.foil_file)
+        print ("Here foil fla",foil_flag)
         return (not foil_flag) and feasibility_flag
 
     

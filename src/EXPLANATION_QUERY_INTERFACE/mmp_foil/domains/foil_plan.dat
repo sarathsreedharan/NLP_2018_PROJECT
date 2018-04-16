@@ -1,4 +1,2 @@
 (validate_pieces)
-(fly_directly p1 london delhi)
 (build_research_station_new p1 delhi)
-; cost = 3 (unit cost)
