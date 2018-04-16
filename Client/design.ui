@@ -42,7 +42,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>270</y>
+     <y>230</y>
      <width>83</width>
      <height>22</height>
     </rect>
@@ -51,58 +51,14 @@
     <string>Cards</string>
    </property>
   </widget>
-  <widget class="QTextBrowser" name="location2_text">
-   <property name="geometry">
-    <rect>
-     <x>359</x>
-     <y>130</y>
-     <width>256</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="baseSize">
-    <size>
-     <width>1000</width>
-     <height>1000</height>
-    </size>
-   </property>
-  </widget>
   <widget class="QListWidget" name="player2_cards">
    <property name="geometry">
     <rect>
      <x>360</x>
      <y>180</y>
      <width>256</width>
-     <height>161</height>
+     <height>111</height>
     </rect>
-   </property>
-  </widget>
-  <widget class="QTextBrowser" name="location3_text">
-   <property name="geometry">
-    <rect>
-     <x>619</x>
-     <y>130</y>
-     <width>256</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="baseSize">
-    <size>
-     <width>1000</width>
-     <height>1000</height>
-    </size>
    </property>
   </widget>
   <widget class="QListWidget" name="player3_cards">
@@ -111,7 +67,7 @@
      <x>620</x>
      <y>180</y>
      <width>256</width>
-     <height>161</height>
+     <height>111</height>
     </rect>
    </property>
   </widget>
@@ -187,35 +143,151 @@
     <string>PushButton</string>
    </property>
   </widget>
-  <widget class="QTextBrowser" name="location1_text">
-   <property name="geometry">
-    <rect>
-     <x>99</x>
-     <y>130</y>
-     <width>256</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="baseSize">
-    <size>
-     <width>1000</width>
-     <height>1000</height>
-    </size>
-   </property>
-  </widget>
   <widget class="QListWidget" name="player1_cards">
    <property name="geometry">
     <rect>
      <x>100</x>
      <y>180</y>
      <width>256</width>
-     <height>161</height>
+     <height>111</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="addCard1">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>300</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>300</y>
+     <width>41</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>---</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>300</y>
+     <width>41</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="addCard2">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>300</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>370</x>
+     <y>300</y>
+     <width>41</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>---</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_5">
+   <property name="geometry">
+    <rect>
+     <x>570</x>
+     <y>300</y>
+     <width>41</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QPlainTextEdit" name="addCard3">
+   <property name="geometry">
+    <rect>
+     <x>670</x>
+     <y>300</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_6">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>300</y>
+     <width>41</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>---</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_7">
+   <property name="geometry">
+    <rect>
+     <x>840</x>
+     <y>300</y>
+     <width>41</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>+</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>130</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_2">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>130</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_3">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>130</y>
+     <width>251</width>
+     <height>41</height>
     </rect>
    </property>
   </widget>
