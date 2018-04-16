@@ -30,3 +30,30 @@ class PlanExecutor(object):
         toCity = params[2]
         self.data_model.removeCardFromPlayer(player, toCity)
         self.data_model.setPlayerLocation(player, toCity)
+
+    def fly_by_charter(self,params):
+        player = params[0]
+        fromCity = params[1]
+        toCity = params[2]
+        pass
+
+    def fly_by_shuttle(self,params):
+        player = params[0]
+        fromCity = params[1]
+        toCity = params[2]
+        pass
+
+    def treat_disease(self,params):
+        pass
+
+    def treat_cured_disease_begin(self,params):
+        pass
+
+    def treat_cured_disease_end(self,params):
+        pass
+
+    def share_knowledge(self,params):
+        pass
+
+    def cure_disease(self,params):
+        pass
