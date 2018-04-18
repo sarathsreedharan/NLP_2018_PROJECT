@@ -2,21 +2,23 @@ import Data
 from PyQt4 import QtCore, QtGui
 import GUI
 import sys
-
+from Backend import Backend
 
 def main():
     modelObj = Data.modelObj;
-
     players = [
-        {'name': "player1", "city": "London", "cards": ['Delhi', 'Mumbai']},
-        {'name': "player2", "city": "Delhi", "cards": ['London', 'Atlanta']},
-        {'name': "player3", "city": "Arizona", "cards": ['Arizona', 'Johannesburg']},
+        {'name': "player1", "city": "london", "cards": ['delhi', 'mumbai']},
+        {'name': "player2", "city": "delhi", "cards": ['london', 'atlanta']},
+        {'name': "player3", "city": "arizona", "cards": ['arizona', 'johannesburg']},
     ]
 
     cities = [
-        {"city_name": "Delhi", "disease_count": 3, "research_station_count": 0},
-        {"city_name": "London", "disease_count": 1, "research_station_count": 0},
-        {"city_name": "Arizona", "disease_count": 2, "research_station_count": 0}
+        {"city_name": "delhi", "disease_count": 3, "research_station_count": 0},
+        {"city_name": "london", "disease_count": 1, "research_station_count": 0},
+        {"city_name": "arizona", "disease_count": 2, "research_station_count": 0},
+        {"city_name": "mumbai", "disease_count": 2, "research_station_count": 0},
+        {"city_name": "johannesburg", "disease_count": 2, "research_station_count": 0}
+
     ]
 
     game_variables = {"research_station_count": 0, "total_disease_count": 3}
@@ -24,13 +26,16 @@ def main():
     newmodel = {'players': players, 'cities': cities, 'game_variables': game_variables}
 
     modelObj.initModel(newmodel)
-    modelObj.show()
+    backend = Backend()
+
 
     app = QtGui.QApplication(sys.argv)
     Frame = QtGui.QFrame()
     ui = GUI.Ui_Frame()
-    ui.setupUi(Frame, modelObj.model)
-    ui.doRepaint(modelObj.model)
+    ui.setupUi(Frame, modelObj, backend)
+    ui.doRepaint(modelObj)
+
+
 
     Frame.show()
     sys.exit(app.exec_())

@@ -15,33 +15,40 @@ class Model(object):
         pp = pprint.PrettyPrinter(indent=4)
         pp.pprint (self.model)
 
-    def __setPlayerName(self, playerNo, name):
+    def setPlayerName(self, playerNo, name):
         self.model['players'][playerNo]['name'] = name
 
-    def __setPlayerLocation(self, playerNo, newcity):
+    def setPlayerLocation(self, playerNo, newcity):
         self.model['players'][playerNo]['city'] = newcity
 
-    def __setPlayerCards(self,playerNo,card_list):
+    def setPlayerCards(self,playerNo,card_list):
         self.model['players'][playerNo]['cards'] = card_list
 
-    def __removeCardFromPlayer(self,playerNo,card):
+    def removeCardFromPlayer(self,playerNo,card):
         card = card.lower()
         card_list = self.model['players'][playerNo]['cards']
         card_list.remove(card)
 
+    def addCardToPlayer(self,playerNo,card):
+        card = card.lower()
+        if(card != ''):
+            card_list = self.model['players'][playerNo]['cards']
+            card_list.append(card)
 
 
 
 
-    def setPlayerLocation(self, playerName, newcity):
+
+
+    def setPlayerLocationByName(self, playerName, newcity):
         playerNo = self.playerNameNumberMap[playerName]
         self.__setPlayerLocation(playerNo, newcity)
 
-    def setPlayerCards(self, playerName, card_list):
+    def setPlayerCardsByName(self, playerName, card_list):
         playerNo = self.playerNameNumberMap[playerName]
         self.__setPlayerCards(playerNo, card_list)
 
-    def removeCardFromPlayer(self, playerName,card):
+    def removeCardFromPlayerByName(self, playerName,card):
         playerNo = self.playerNameNumberMap[playerName]
         self.__removeCardFromPlayer(playerNo, card)
 
@@ -55,7 +62,11 @@ class Model(object):
             if util.isEqualStr(city['city_name'], city_name):
                 city['disease_count'] = newcount
 
-
+    def getCityNames(self):
+        cities = []
+        for city in self.model['cities']:
+            cities.append(city['city_name'])
+        return  cities
 
 modelObj = Model()
 

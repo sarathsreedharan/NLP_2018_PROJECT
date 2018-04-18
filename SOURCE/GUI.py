@@ -29,8 +29,10 @@ except AttributeError:
 
 
 class Ui_Frame(object):
-    def setupUi(self, Frame, model):
+    def setupUi(self, Frame, model, backend):
+        self.model = model
         self.Frame = Frame
+        self.backend = backend
         self.Frame.setObjectName(_fromUtf8("self.Frame"))
         self.Frame.resize(1066, 837)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Fixed, QtGui.QSizePolicy.Preferred)
@@ -48,11 +50,11 @@ class Ui_Frame(object):
         self.cards_label.setGeometry(QtCore.QRect(20, 230, 83, 22))
         self.cards_label.setObjectName(_fromUtf8("cards_label"))
 
-        self.graph_box = QtGui.QListWidget(self.Frame)
+        self.graph_box = QtGui.QPlainTextEdit(self.Frame)
         self.graph_box.setGeometry(QtCore.QRect(100, 360, 511, 401))
         self.graph_box.setObjectName(_fromUtf8("graph_box"))
 
-        self.plan_output = QtGui.QListWidget(self.Frame)
+        self.plan_output = QtGui.QPlainTextEdit(self.Frame)
         self.plan_output.setGeometry(QtCore.QRect(620, 360, 251, 401))
         self.plan_output.setObjectName(_fromUtf8("plan_output"))
 
@@ -60,39 +62,40 @@ class Ui_Frame(object):
         self.pushButton.setGeometry(QtCore.QRect(820, 770, 211, 51))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
 
+        QObject.connect(self.pushButton, SIGNAL("clicked()"), lambda obj={"func": "get_assistance", "args": ''}: self.onClicked(obj))
+
         self.createPlayerLabels(3)
-        self.createComboBoxes(3, model['cities'])
+        self.createComboBoxes(3)
         self.createCardDecks(3)
 
         self.retranslateUi(self.Frame)
 
         self.cityList = []
 
+        self.doRepaint(model)
+
         QtCore.QMetaObject.connectSlotsByName(self.Frame)
 
     def createPlayerLabels(self, playerCount):
+        self.labels = []
         labelGeometires = [QtCore.QRect(180, 90, 83, 22), QtCore.QRect(440, 90, 83, 22), QtCore.QRect(710, 90, 83, 22)]
         for i in range(playerCount):
             label = QtGui.QLabel(self.Frame)
             label.setGeometry(labelGeometires[i])
-            label.setText("Unnamed")
+            self.labels.append(label)
 
-    def createComboBoxes(self, playerCount, cities):
+    def createComboBoxes(self, playerCount):
         comboBoxGeometries = [QtCore.QRect(100, 130, 251, 41), QtCore.QRect(360, 130, 251, 41),
                               QtCore.QRect(620, 130, 251, 41)]
-
-        city_list = []
-        for city in cities:
-            city_list.append(city['city_name'])
         self.comboBoxes = []
         for i in range(playerCount):
             comboBox = QtGui.QComboBox(self.Frame)
-            comboBox.addItems(city_list)
             comboBox.setGeometry(comboBoxGeometries[i])
+            QObject.connect(comboBox, SIGNAL('currentIndexChanged(QString)'), lambda obj={"func":"change_location", "args":comboBox}: self.onClicked(obj))
             self.comboBoxes.append(comboBox)
 
     def createCardDecks(self, playerCount):
-        cardDecks = []
+        self.cardDecks = []
 
         playerCardGeometries = [
             {"box": QtCore.QRect(100, 180, 256, 111), "buttonLeft": QtCore.QRect(110, 300, 41, 32),
@@ -109,44 +112,67 @@ class Ui_Frame(object):
             pushButtonLeft = QtGui.QPushButton(self.Frame)
             pushButtonLeft.setGeometry(playerCardGeometries[i]['buttonLeft'])
             pushButtonLeft.setText("-")
-            QObject.connect(pushButtonLeft, SIGNAL("clicked()"), lambda obj={"func":"remove_selected_cards", "args":str(i)}: self.onClicked(obj))
+            QObject.connect(pushButtonLeft, SIGNAL("clicked()"), lambda obj={"func":"remove_selected_cards", "args":i}: self.onClicked(obj))
 
             pushButtonRight = QtGui.QPushButton(self.Frame)
             pushButtonRight.setGeometry(playerCardGeometries[i]['buttonRight'])
             pushButtonRight.setText('+')
-            QObject.connect(pushButtonRight, SIGNAL("clicked()"), lambda obj={"func":"add_card", "args":str(i)}: self.onClicked(obj))
+            QObject.connect(pushButtonRight, SIGNAL("clicked()"), lambda obj={"func":"add_card", "args":i}: self.onClicked(obj))
 
 
             addCard = QtGui.QPlainTextEdit(self.Frame)
             addCard.setGeometry(playerCardGeometries[i]['addCard'])
+            addCard.toPlainText()
+            entry = {"cardDeck":cardDeck, "cardToAddText":addCard }
 
-            cardDecks.append(cardDeck)
+            self.cardDecks.append(entry)
 
-    def onClicked(self,obj):
-        self.cityList.pop()
-        func = getattr(self,obj['func'])
+    def onClicked(self, obj):
+        func = getattr(self, obj['func'])
         func(obj['args'])
 
     def doRepaint(self,model):
         #TODO populate UI from model after every change
         self.cityList = []
-        for city in model['cities']:
-            self.cityList.append(city['city_name'])
+        for city in model.getCityNames():
+            self.cityList.append(city.upper())
 
-        for i, player in enumerate(model['players']):
+        for i, player in enumerate(model.model['players']):
+
             self.comboBoxes[i].clear()
             self.comboBoxes[i].addItems(self.cityList)
-            self.comboBoxes[i].setCurrentIndex(self.cityList.index(player['city']))
+            self.comboBoxes[i].setCurrentIndex(self.cityList.index(player['city'].upper()))
+
+            self.cardDecks[i]['cardDeck'].clear()
+            for card in player['cards']:
+                self.cardDecks[i]['cardDeck'].addItem(card.upper())
+                self.labels[i].setText(player['name'])
+
+    def onASROut(self,text):
+        self.plan_output.appendPlainText(text)
+
+    def get_assistance(self,args):
+        self.backend.recognize(self.onASROut)
+
+    def change_location(self,comboBox):
+        print comboBox.currentText()
+
+    def remove_selected_cards(self, playerNo):
+        selectedList = self.cardDecks[playerNo]['cardDeck'].selectedItems()
+        for item in selectedList:
+            self.model.removeCardFromPlayer(playerNo, str(item.text()))
+        self.doRepaint(self.model)
 
 
-    def remove_selected_cards(self, player):
-        print "Called"+ str(player)
+    def add_card(self, playerNo):
+        newcard = self.cardDecks[playerNo]['cardToAddText'].toPlainText()
+        self.cardDecks[playerNo]['cardToAddText'].clear()
+        self.model.addCardToPlayer(playerNo,str(newcard))
+        self.doRepaint(self.model)
 
-    def add_card(self, player):
-        print "Called add_card"+ str(player)
 
     def retranslateUi(self, Frame):
         Frame.setWindowTitle(_translate("Frame", "Frame", None))
         self.location_label.setText(_translate("Frame", "Location", None))
         self.cards_label.setText(_translate("Frame", "Cards", None))
-        self.pushButton.setText(_translate("Frame", "PushButton", None))
+        self.pushButton.setText(_translate("Frame", "Assist Me!", None))

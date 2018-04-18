@@ -4,5 +4,7 @@ class Backend(object):
 		pass
 		self.asr = Speech.ASR()
 
-	def recognize(self):
-		self.asr.recognize()
+	def recognize(self,callback):
+		self.asr.recognize(callback)
+
+
