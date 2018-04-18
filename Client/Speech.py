@@ -19,7 +19,7 @@ class ASR(object):
             if microphone_name == mic_name:
                 self.device_id = i
 
-    def recognize(self):
+    def recognize(self, callback):
         #use the microphone as source for input. Here, we also specify 
         #which device ID to specifically look for incase the microphone 
         #is not working, an error will pop up saying "device_id undefined"
@@ -34,6 +34,7 @@ class ASR(object):
             try:
                 text = self.recognizer.recognize_google(audio)
                 print "You said: " + text
+                callback(text)
              
             #error occurs when google could not understand what was said
              
