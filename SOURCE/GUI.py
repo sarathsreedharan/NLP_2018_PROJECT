@@ -148,11 +148,11 @@ class Ui_Frame(object):
                 self.cardDecks[i]['cardDeck'].addItem(card.upper())
                 self.labels[i].setText(player['name'])
 
-    def onASROut(self,text):
+    def onASROut(self, text):
         self.plan_output.appendPlainText(text)
 
     def get_assistance(self,args):
-        self.backend.recognize(self.onASROut)
+        self.backend.recognizeVoice(self.onASROut)
 
     def change_location(self,comboBox):
         print comboBox.currentText()
