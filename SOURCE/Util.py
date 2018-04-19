@@ -6,13 +6,13 @@ import os
 def isEqualStr(a, b):
     return a.lower() == b.lower()
 
-def executeCommand(cmd,outputFname):
+def executeCommand(cmd,outputFname,dirToExecuteIn='/home/'):
 
     print "Executing %s...   " % (cmd),
     sys.stdout.flush()
     dumpFile = open(outputFname, "w")
 
-    p = subprocess.Popen([cmd], shell=True, stdout=dumpFile, stderr=dumpFile)
+    p = subprocess.Popen([cmd], shell=True, stdout=dumpFile, cwd=dirToExecuteIn)
 
     startTime = time.time()
 

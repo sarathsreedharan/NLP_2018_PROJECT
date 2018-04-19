@@ -1,0 +1,1 @@
+NL2KR_DIR = "/home/midhun/Documents/NLP/NLP_2018_PROJECT/NL2KR/"
