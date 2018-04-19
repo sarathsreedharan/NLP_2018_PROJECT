@@ -1,4 +1,6 @@
 import Speech
+import ConfigParser
+
 class Backend(object):
 	def __init__(self):
 		pass
@@ -8,3 +10,11 @@ class Backend(object):
 		self.asr.recognize(callback)
 
 
+
+
+
+
+
+
+	# b=Backend()
+	# b.getLTLRepresentation("")

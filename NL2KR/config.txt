@@ -1,0 +1,19 @@
+#Tue Apr 17 21:45:02 MST 2018
+Loutput=
+ccg=
+function=
+Tdictionary=/home/midhun/Documents/NLP/NLP_2018_PROJECT/NL2KR/dict_pq.txt
+Ldictionary=
+sentence=how can player1 go to delhi
+Lsyntax=
+inverse_function_output=
+argument=
+inverse_function=
+syntaxFile=
+inverse_argument=
+lexicon=
+Tdata=/home/midhun/Documents/NLP/NLP_2018_PROJECT/NL2KR/input.txt
+word=
+batchSentences=
+Tsyntax=/home/midhun/Documents/NLP/NLP_2018_PROJECT/NL2KR/syntax_pq.txt
+Ldata=

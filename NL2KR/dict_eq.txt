@@ -1,0 +1,91 @@
+Delhi	NP	l(x,x)	-1.0
+Delhi	NP	Delhi	3.295837
+Delhi	NP	delhi	-1.0
+treat	(S\NP)/NP	l(x,x)	-1.0
+treat	(S\NP)/NP	#x.#y.#z.x @ y @ equals(totalPerCityCount(z),zero)	-1.0
+treat	(S\NP)/NP	#y.#x.y @ equals(totalPerCityCount(x),zero)	0.0
+visiting	(S\NP)/NP	l(x,x)	-1.0
+visiting	(S\NP)/NP	#x.#y.incity(y,x)	2.0794415
+reach	(S\NP)/NP	l(x,x)	-1.0
+reach	(S\NP)/NP	#x.#y.incity(y,x)	1.609438
+I	S/S	l(x,x)	-1.0
+I	S/S	#x.x	2.0794415
+I	NP	i	-1.0
+I	NP	l(x,x)	-1.0
+I	NP	#x.x	-1.0
+cant	S/S	l(x,x)	-1.0
+cant	S/S	#x.x	2.7080503
+reaching	(S\NP)/NP	#x465.#x463.incity(x463,x465)	0.6931472
+reaching	(S\NP)/NP	l(x,x)	-1.0
+construct	S/S	#x5.x5	0.0
+cure	S\NP	l(x,x)	-1.0
+cure	S\NP	#x0.equals(totalPerCityCount(x0),zero)	1.0986123
+cure	(S\NP)/NP	l(x,x)	-1.0
+cure	(S\NP)/NP	#x.equals(totalPerCityCount(x),zero)	-1.0
+without	((S\NP)/(S\NP))/NP	l(x,x)	-1.0
+without	((S\NP)/(S\NP))/NP	#x5.#x4.#x3.and(atend(x3),always(not(x4 @ x5)))	1.3862944
+without	((S\NP)/(S\NP))/NP	#x5.#x4.#x3.#x2.and(atend(x2 @ x3),always(not(x4 @ x5)))	-1.0
+without	((S\NP)\(S\NP))/(S\NP)	l(x,x)	-1.0
+without	((S\NP)\(S\NP))/(S\NP)	#x10.#x9.#x8.and(atend(x9 @ x8),always(not(x10 @ x8)))	1.609438
+without	((S\(S\NP))\NP)/S	l(x,x)	-1.0
+without	((S\(S\NP))\NP)/S	#z.#x.#y.and(atend(x @ y),always(not(z)))	-1.0
+without	((S\(S\NP))\NP)/S	#z.#x.#y.and(atend(y @ x),always(not(z)))	1.3862944
+without	((S\NP)\(S\NP))/S	l(x,x)	-1.0
+without	((S\NP)\(S\NP))/S	#x47.#x46.#x45.x45 @ and(atend(x46),always(not(x47)))	-1.0
+not	(S\NP)/(S\NP)	#x2512.#x2511.always(not(x2512 @ x2511))	0.6931472
+not	(S\NP)/(S\NP)	l(x,x)	-1.0
+does	(S\NP)/S	l(x,x)	-1.0
+does	(S\NP)/S	#x.x	1.0986123
+does	(S/(S\NP))/NP	l(x,x)	-1.0
+does	(S/(S\NP))/NP	#x.#y.y @ x	0.0
+make	S/S	l(x,x)	-1.0
+make	S/S	#x.x	0.0
+travelling	(S\NP)/NP	l(x,x)	-1.0
+travelling	(S\NP)/NP	#x.#y.incity(y,x)	1.0986123
+a	NP/N	l(x,x)	-1.0
+a	S/S	l(x,x)	-1.0
+a	S/S	#x.x	1.0986123
+a	NP/NP	#x47.x47	0.6931472
+a	NP/NP	l(x,x)	-1.0
+disease	N	#x.x	0.0
+player1	NP	l(x,x)	-1.0
+player1	NP	player1	2.944439
+need	((S\NP)/(S\NP))/(S\NP)	l(x,x)	-1.0
+need	((S\NP)/(S\NP))/(S\NP)	#x13.#x12.#x11.and(atend(x12 @ x11),always(not(x13 @ x11)))	1.0986123
+need	(S\NP)/(S\NP)	#x2512.#x2511.always(need(x2512 @ x2511))	-1.0
+need	(S\NP)/(S\NP)	l(x,x)	-1.0
+need	(S\NP)/(S\NP)	#x2989.#x2988.always(not(x2989 @ x2988))	0.0
+in	NP/NP	l(x,x)	-1.0
+in	NP/NP	#x.x	1.609438
+in	NP/NP	#x.hasResearchStation(x)	-1.0
+cross	(S\NP)/NP	#x462.#x460.incity(x460,x462)	0.0
+go	(S\NP)/PP	l(x,x)	-1.0
+go	(S\NP)/PP	#x.#y.incity(y,x)	-1.0
+go	(S\NP)/NP	l(x,x)	-1.0
+go	(S\NP)/NP	#x.#y.incity(y,x)	0.6931472
+Why	S/S	l(x,x)	-1.0
+Why	S/S	#x.x	2.7725887
+Why	S/(S\NP)	l(x,x)	-1.0
+Why	S/(S\NP)	#x.x	1.0986123
+Why	(S/S)/S	l(x,x)	-1.0
+Why	(S/S)/S	#x.#y.y @ x	-1.0
+build	S/S	#x5.x5	0.6931472
+build	S/S	l(x,x)	-1.0
+visit	(S\NP)/NP	l(x,x)	-1.0
+visit	(S\NP)/NP	#x.#y.incity(y,x)	1.609438
+to	((S\NP)\(S\NP))/NP	l(x,x)	-1.0
+to	PP/NP	l(x,x)	-1.0
+to	PP/NP	#x.x	-1.0
+to	(S\NP)/(S\NP)	l(x,x)	-1.0
+to	(S\NP)/(S\NP)	#x.x	1.9459101
+to	(S\NP)/(S\NP)	#x2512.#x2511.always(to(x2512 @ x2511))	-1.0
+to	NP/NP	l(x,x)	-1.0
+to	NP/NP	#x.x	1.7917595
+travel	S\NP	l(x,x)	-1.0
+travel	(S\NP)/NP	l(x,x)	-1.0
+travel	(S\NP)/NP	#x.#y.incity(y,x)	0.0
+Paris	NP	l(x,x)	-1.0
+Paris	NP	Paris	2.0794415
+Paris	NP	paris	-1.0
+research_station	NP/NP	l(x,x)	-1.0
+research_station	NP/NP	#x.hasResearchStation(x)	1.3862944
