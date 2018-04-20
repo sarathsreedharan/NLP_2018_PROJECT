@@ -169,7 +169,6 @@ Method :: ground PDDL domain and problem files
 def ground(domainFileName, problemFileName):
 
     output = os.system('./clean.sh')
-    print "ab",__GROUND_CMD__.format(domainFileName, problemFileName)
     output = os.system(__GROUND_CMD__.format(domainFileName, problemFileName))
 
 
