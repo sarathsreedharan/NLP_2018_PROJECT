@@ -16,6 +16,8 @@ class Problem:
 
         self.domainTemplate = domainTemplate
         self.problemTemplate = problemTemplate
+        if not humanProblemFile:
+            humanProblemFile = problemFile
 
         with open(foil_file) as f_fd:
             self.foil = f_fd.read().strip().split('\n')
@@ -51,12 +53,10 @@ class Problem:
     def isGoal(self, state):
         temp_problem = 'tr-problem.pddl'
         temp_domain = write_domain_file_from_state(state, self.domainTemplate)
-        print ("Here????")
         feasibility_flag = validate_plan(temp_domain, temp_problem, self.groundedRobotPlanFile)
         if not feasibility_flag:
             return False
         foil_flag = validate_plan(temp_domain, temp_problem, self.foil_file)
-        print ("Here foil fla",foil_flag)
         return (not foil_flag) and feasibility_flag
 
     

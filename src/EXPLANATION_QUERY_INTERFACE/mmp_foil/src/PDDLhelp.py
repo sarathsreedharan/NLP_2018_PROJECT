@@ -116,10 +116,8 @@ def read_state_from_domain_file(domainFileName):
             all_effects = re.search(':effect[\s+]*\(and[\s+]*(.*?)\)[\s+]*\)[\s+]*;new_act$', description).group(1)[1:-1]
             add_effects = []
             del_effects = []
-            print ("prec_scr",all_effects)
             for i in all_effects.split(') ('):
                 if "not" in i:
-                    print i
                     del_effects.append(i.replace("not ",""))#re.search('not[\s+]*(.*)',i).group(1)[0])
                 else:
                     add_effects.append('('+i+')')
@@ -171,6 +169,7 @@ Method :: ground PDDL domain and problem files
 def ground(domainFileName, problemFileName):
 
     output = os.system('./clean.sh')
+    print "ab",__GROUND_CMD__.format(domainFileName, problemFileName)
     output = os.system(__GROUND_CMD__.format(domainFileName, problemFileName))
 
 
@@ -184,7 +183,6 @@ Method :: validate plan given PDDL domain and problem files
 #    return eval(output)
 
 def validate_plan(domainFileName, problemFileName, planFileName):
-    print ("val cmd",__VAL_PLAN_CMD__.format(domainFileName, problemFileName, planFileName))
     output = os.popen(__VAL_PLAN_CMD__.format(domainFileName, problemFileName, planFileName)).read().strip()
     return eval(output)
 
