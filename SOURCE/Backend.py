@@ -45,7 +45,7 @@ class Backend(object):
                 s = Util.enumStringFromList(actionListInNaturalLang)
                 onPlanningDoneGUI(s)
 
-            elif query_type == "explanation":
+            elif query_type == "explain":
                 print ("Processing Explain Query ")
                 fg = FOIL_GENERATOR()
                 foil = fg.query_goal(predicates, ltl_representation)
