@@ -58,9 +58,9 @@ class Ui_Frame(object):
         self.plan_output.setGeometry(QtCore.QRect(620, 360, 251, 401))
         self.plan_output.setObjectName(_fromUtf8("plan_output"))
 
-        self.pushButton = QtGui.QPushButton(self.Frame)
-        self.pushButton.setGeometry(QtCore.QRect(820, 770, 211, 51))
-        self.pushButton.setObjectName(_fromUtf8("pushButton"))
+        self.assistButton = QtGui.QPushButton(self.Frame)
+        self.assistButton.setGeometry(QtCore.QRect(820, 770, 211, 51))
+        self.assistButton.setObjectName(_fromUtf8("pushButton"))
 
         self.executeButton = QtGui.QPushButton(Frame)
         self.executeButton.setGeometry(QtCore.QRect(900, 510, 141, 51))
@@ -68,11 +68,17 @@ class Ui_Frame(object):
 
         self.updateButton = QtGui.QPushButton(Frame)
         self.updateButton.setGeometry(QtCore.QRect(900, 210, 141, 51))
-        self.updateButton.setObjectName(_fromUtf8("explainButton"))
+        self.updateButton.setObjectName(_fromUtf8("updateButton"))
 
-        QObject.connect(self.pushButton, SIGNAL("clicked()"), lambda obj={"func": "get_assistance", "args": ''}: self.onClicked(obj))
+        self.explainButton = QtGui.QPushButton(Frame)
+        self.explainButton.setGeometry(QtCore.QRect(900, 580, 141, 51))
+        self.explainButton.setObjectName(_fromUtf8("explainButton"))
+
+
+        QObject.connect(self.assistButton, SIGNAL("clicked()"), lambda obj={"func": "get_assistance", "args": 'plan'}: self.onClicked(obj))
         QObject.connect(self.executeButton, SIGNAL("clicked()"), lambda obj={"func": "execute_plan", "args": ''}: self.onClicked(obj))
         QObject.connect(self.updateButton, SIGNAL("clicked()"), lambda obj={"func": "update_state", "args": ''}: self.onClicked(obj))
+        QObject.connect(self.explainButton, SIGNAL("clicked()"), lambda obj={"func": "get_assistance", "args": 'explain'}: self.onClicked(obj))
 
         self.createPlayerLabels(3)
         self.createComboBoxes(3)
@@ -161,14 +167,16 @@ class Ui_Frame(object):
     def onASROut(self, text):
         self.plan_output.appendPlainText(text)
 
+    def onPlanningDone(self, plan):
+        self.plan_output.appendPlainText(plan)
+
+
     def get_assistance(self,args):
-        self.backend.recognizeVoice(self.onASROut)
+        query_type = args
+        self.backend.get_assistance(query_type, self.onASROut, self.onPlanningDone)
 
     def execute_plan(self,args):
         self.backend.executePlan()
-
-    def explain_plan(self,args):
-        self.backend.recognizeVoice(self.onASROut, "explain")
 
     def update_state(self,args):
         self.backend.updateState()
@@ -194,8 +202,10 @@ class Ui_Frame(object):
         Frame.setWindowTitle(_translate("Frame", "Frame", None))
         self.location_label.setText(_translate("Frame", "Location", None))
         self.cards_label.setText(_translate("Frame", "Cards", None))
-        self.pushButton.setText(_translate("Frame", "Assist Me!", None))
+        self.assistButton.setText(_translate("Frame", "Assist Me!", None))
         self.executeButton.setText(_translate("Frame", "Execute", None))
         self.updateButton.setText(_translate("Frame", "Update", None))
+        self.explainButton.setText(_translate("Frame", "Explain Plan", None))
+
 
 

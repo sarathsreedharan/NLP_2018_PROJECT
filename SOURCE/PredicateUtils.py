@@ -1,4 +1,4 @@
-def extractNameAndParametersFromAction(self, action):
+def extractNameAndParametersFromAction(action):
     actionList = action.replace('(', '') \
         .replace(')', '') \
         .split(' ')

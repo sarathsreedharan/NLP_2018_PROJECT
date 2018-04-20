@@ -6,6 +6,15 @@ import os
 def isEqualStr(a, b):
     return a.lower() == b.lower()
 
+def enumStringFromList(list):
+    count = 1
+    s = ""
+    for item in list:
+        s = s +str(count)+": "+str(item)+"\n"
+        count = count+1
+    return s
+
+
 def executeCommand(cmd,outputFname,dirToExecuteIn='/home/'):
 
     print "Executing %s...   " % (cmd),
