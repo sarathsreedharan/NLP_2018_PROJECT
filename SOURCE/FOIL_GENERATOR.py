@@ -3,15 +3,21 @@ import tempfile
 
 __PLAN_CMD__ = "./run_lprgp.sh {} {} {}"
 __READ_BEST_PLAN__ = "./find_and_read_best_plan.sh {}"
+__DOMAIN_FILE_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/domain.pddl"
+__PROB_TEMPL_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/prob_templ.pddl"
 
-class PLAN_QUERY:
-    def __init__(self, domain_file, prob_templ, init_state):
-        self.domain_file = domain_file
+class FOIL_GENERATOR:
+    def __init__(self, domain_file = __DOMAIN_FILE_LOC__, prob_templ = __PROB_TEMPL_LOC__):
+        with open(domain_file) as d_fd:
+             dom_str = d_fd.read()
+        #self.domain_file = domain_file
         with open(prob_templ) as p_fd:
             self.prob_templ_str = p_fd.read()
-        self.curr_state = init_state
         self.workspace = tempfile.mkdtemp()
-        print ("workspace", self.workspace)
+        self.domain_file = self.workspace + "/domain.pddl"
+        with open(self.domain_file, 'w') as d_fd:
+                d_fd.write(dom_str)
+
 
     def update_curr_state(self, output_plan):
         #TODO
@@ -28,16 +34,9 @@ class PLAN_QUERY:
         return output_plan
 
     def translate2PDDL(self, curr_str):
-        #query_str = ""
-        #curr_part = ""
-        #for i in range(len(curr_str)):
-        #    if curr_str[i] == '(':
-        #        query_str += " " + curr_part
-        #    elif:
-        #        query_str += curr_str[i]
         new_str = curr_str.replace("atend(", "(at end ")
         new_str = new_str.replace("incity(", "(in_city ")
-        new_str = new_str.replace(",", "")
+        new_str = new_str.replace(",", " ")
         return new_str
 
     def make_problem_file(self, init_state, goal_constr):
@@ -46,9 +45,9 @@ class PLAN_QUERY:
             p_fd.write(prob_str)
 
 
-    def query_goal(self, goal_str, foil_constr):
+    def query_goal(self, init_state, goal_str, foil_constr):
         clean_str = self.translate2PDDL(goal_str)
-        self.make_problem_file(self.curr_state, clean_str)
+        self.make_problem_file(init_state, clean_str)
 
         best_plan =  self.run_planner(self.workspace+"/prob.pddl", self.workspace+"/plans")
 
@@ -56,11 +55,11 @@ class PLAN_QUERY:
 
 
 if __name__ == '__main__':
-    with open('/media/data_mount/mycode/NLP_PROJ_FILES/PLAN_QUERY_INTERFACE/domains/test_init_state') as init_fd:
+    with open('/media/data_mount/mycode/NLP_PROJ_FILES/FOIL_GENERATOR_INTERFACE/domains/test_init_state') as init_fd:
         init = set([i.strip() for i in init_fd.readlines()])
-    domain_file = "/media/data_mount/mycode/NLP_PROJ_FILES/PLAN_QUERY_INTERFACE/domains/domain.pddl"
-    prob_templ = "/media/data_mount/mycode/NLP_PROJ_FILES/PLAN_QUERY_INTERFACE/domains/prob_templ.pddl"
-    pq = PLAN_QUERY(domain_file, prob_templ, init)
+    domain_file = "/media/data_mount/mycode/NLP_PROJ_FILES/FOIL_GENERATOR_INTERFACE/domains/domain.pddl"
+    prob_templ = "/media/data_mount/mycode/NLP_PROJ_FILES/FOIL_GENERATOR_INTERFACE/domains/prob_templ.pddl"
+    pq = FOIL_GENERATOR(domain_file, prob_templ, init)
     print (pq.query_goal("atend(incity(p1, delhi))"))
     print (pq.curr_state)
 

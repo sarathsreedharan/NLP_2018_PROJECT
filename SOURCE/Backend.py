@@ -2,7 +2,7 @@ import Speech
 import NL2KR
 import config
 from PLAN_QUERY import PLAN_QUERY
-
+from FOIL_GENERATOR import FOIL_GENERATOR
 
 class Backend(object):
     def __init__(self, model):
@@ -27,8 +27,12 @@ class Backend(object):
                plan = pq.query_goal(predicates, ltl_representation)
                gui_callback("PLAN:\n"+"\n".join(plan))
             elif query_type == "explanation":
-               print "test" 
                #"bajilsnsalklals"
+               fg = FOIL_GENERATOR()
+               gui_callback("I heard: " + str(text) + " :" + ltl_representation)
+               foil = fg.query_goal(predicates, ltl_representation)
+               if len(foil) != 0:
+                  
 
 #if __name__ == "__main__":
 #   bb = Backend()
