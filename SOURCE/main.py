@@ -26,7 +26,7 @@ def main():
     newmodel = {'players': players, 'cities': cities, 'game_variables': game_variables}
 
     modelObj.initModel(newmodel)
-    backend = Backend()
+    backend = Backend(modelObj)
 
 
     app = QtGui.QApplication(sys.argv)
