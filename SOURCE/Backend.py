@@ -54,6 +54,3 @@ class Backend(object):
 
     def executePlan(self):
         pass
-
-    def updateState(self):
-        pass

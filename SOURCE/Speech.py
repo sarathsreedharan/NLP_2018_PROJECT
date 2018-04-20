@@ -47,8 +47,8 @@ class ASR(object):
                 print("Could not request results from Google Speech Recognition service; {0}".format(e))
         return None
 
-    def undefinedActionMethod(self):
-        print ("Cannot Execute: Action is undefined")
+    def undefinedActionMethod(self,name):
+        return "Cannot Execute:{} Action -> Undefined Method".format(name)
 
     def speak(self, natural_language_sentence_list):
 
@@ -56,10 +56,14 @@ class ASR(object):
             pass
 
     def decodeActionList(self,list_of_actions):
+        print "Decoding : "+str(list_of_actions)
+        if(len(list_of_actions) ==0):
+            return ['No need to do anything']
+
         nl_texts = []
         for action in list_of_actions:
             action_name, action_params = PredicateUtils.extractNameAndParametersFromAction(action)
-            func = getattr(self, action_name, self.undefinedActionMethod)
+            func = getattr(self, action_name, self.undefinedActionMethod(action_name))
             nl_texts.append(func(action_params))
 
         return nl_texts
@@ -89,13 +93,16 @@ class ASR(object):
         player = params[0]
         fromCity = params[1]
         toCity = params[2]
-        pass
+        nl_text = '%(player)s should charter from %(fromCity)s to %(toCity)s' % {'player':player,'fromCity':fromCity, 'toCity':toCity}
+        return nl_text
 
     def fly_by_shuttle(self,params):
         player = params[0]
         fromCity = params[1]
         toCity = params[2]
-        pass
+        nl_text = '%(player)s should shuttle from %(fromCity)s to %(toCity)s' % {'player':player,'fromCity':fromCity, 'toCity':toCity}
+        return nl_text
+
 
     def treat_disease(self,params):
         player = params[0]

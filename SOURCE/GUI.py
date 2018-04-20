@@ -77,7 +77,7 @@ class Ui_Frame(object):
 
         QObject.connect(self.assistButton, SIGNAL("clicked()"), lambda obj={"func": "get_assistance", "args": 'plan'}: self.onClicked(obj))
         QObject.connect(self.executeButton, SIGNAL("clicked()"), lambda obj={"func": "execute_plan", "args": ''}: self.onClicked(obj))
-        QObject.connect(self.updateButton, SIGNAL("clicked()"), lambda obj={"func": "update_state", "args": ''}: self.onClicked(obj))
+        QObject.connect(self.updateButton, SIGNAL("clicked()"), lambda obj={"func": "update_locations", "args": ''}: self.onClicked(obj))
         QObject.connect(self.explainButton, SIGNAL("clicked()"), lambda obj={"func": "get_assistance", "args": 'explain'}: self.onClicked(obj))
 
         self.createPlayerLabels(3)
@@ -107,7 +107,7 @@ class Ui_Frame(object):
         for i in range(playerCount):
             comboBox = QtGui.QComboBox(self.Frame)
             comboBox.setGeometry(comboBoxGeometries[i])
-            QObject.connect(comboBox, SIGNAL('currentIndexChanged(QString)'), lambda obj={"func":"change_location", "args":comboBox}: self.onClicked(obj))
+            # QObject.connect(comboBox, SIGNAL('currentIndexChanged(QString)'), lambda obj={"func":"change_location", "args":comboBox}: self.onClicked(obj))
             self.comboBoxes.append(comboBox)
 
     def createCardDecks(self, playerCount):
@@ -178,8 +178,11 @@ class Ui_Frame(object):
     def execute_plan(self,args):
         self.backend.executePlan()
 
-    def update_state(self,args):
-        self.backend.updateState()
+    def update_locations(self,args):
+        for i,comboBox in enumerate(self.comboBoxes):
+            newcity = str(comboBox.currentText())
+            self.model.setPlayerLocation(i, newcity)
+        self.doRepaint(self.model)
 
     def change_location(self,comboBox):
         print comboBox.currentText()
@@ -187,6 +190,7 @@ class Ui_Frame(object):
     def remove_selected_cards(self, playerNo):
         selectedList = self.cardDecks[playerNo]['cardDeck'].selectedItems()
         for item in selectedList:
+            print("Remove {} card from player {}".format(item.text(),playerNo))
             self.model.removeCardFromPlayer(playerNo, str(item.text()))
         self.doRepaint(self.model)
 
@@ -204,7 +208,7 @@ class Ui_Frame(object):
         self.cards_label.setText(_translate("Frame", "Cards", None))
         self.assistButton.setText(_translate("Frame", "Assist Me!", None))
         self.executeButton.setText(_translate("Frame", "Execute", None))
-        self.updateButton.setText(_translate("Frame", "Update", None))
+        self.updateButton.setText(_translate("Frame", "Update Locations", None))
         self.explainButton.setText(_translate("Frame", "Explain Plan", None))
 
 
