@@ -4,6 +4,12 @@ import config
 from PLAN_QUERY import PLAN_QUERY
 from FOIL_GENERATOR import FOIL_GENERATOR
 import Util
+__PROB_TMPL_SRC__ = "../src/EXPLANATION_QUERY_INTERFACE/mmp_foil/domains/prob_templ.pddl"
+__PROB_DST__ = "/tmp/curr_problem.pddl"
+__FOIL_DST__ = "/tmp/curr_foil.sol"
+__PLAN_DST__ = "/tmp/curr_plan.sol"
+__EXP_CMD__ = "./run_mmp_script.sh"
+__EXP_FILE__ = "/tmp/exp.dat"
 
 class Backend(object):
     def __init__(self, model):
@@ -50,7 +56,25 @@ class Backend(object):
                 fg = FOIL_GENERATOR()
                 foil = fg.query_goal(predicates, ltl_representation)
                 if len(foil) != 0:
-                    pass
+                    with open(__FOIL_DST__, 'w') as f_fd:
+                         f_fd.write("\n".join(foil))
+                    #TODO:create_problem_for_explanation(curr_state, goal, prob_dst)
+                    #TODO:write plan
+                    self.bash_cmd_exec(__EXP_CMD__)
+                    with open(__EXP_FILE__) as e_fd:
+                         explanation = e_fd.read()
+                  #TODO: Send the explanation to GUI
+
+    def create_problem_for_explanation(self, curr_state, goal, prob_dst):
+        with open(__PROB_TMPL_SRC__) as p_fd:
+             prob_tmp_str = p_fd.read()
+        prob_str = prob_tmp_str.format(curr_state, goal)
+        with open(prob_dst) as p_fd:
+             p_fd.write(prob_str)
+
+    def bash_cmd_exec(self, cmd):
+        output = os.popen(cmd)
+        return output
 
     def executePlan(self):
         pass
