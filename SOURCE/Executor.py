@@ -1,20 +1,17 @@
+import PredicateUtils
 
 class PlanExecutor(object):
     def __init__(self, data_model):
         self.data_model = data_model
 
-    def __extractNameAndParameters(self, action):
-        actionList= action.replace('(', '')\
-            .replace(')', '')\
-            .split(' ')
-        return actionList[0], actionList[1:]
+
 
     def undefinedActionMethod(self):
         print ("Cannot Execute: Action is undefined")
 
-    def execute(self,plan):
+    def execute(self, plan):
         for action in plan:
-            action_name, action_params = self.__extractNameAndParameters(action)
+            action_name, action_params = PredicateUtils.extractNameAndParametersFromAction(action)
             func = getattr(self, action_name, self.undefinedActionMethod)
             func(action_params)
 

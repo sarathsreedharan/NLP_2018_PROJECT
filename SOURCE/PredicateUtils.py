@@ -1,3 +1,9 @@
+def extractNameAndParametersFromAction(self, action):
+    actionList = action.replace('(', '') \
+        .replace(')', '') \
+        .split(' ')
+    return actionList[0], actionList[1:]
+
 def getPlayerLocationPredicate(player):
     #(in_city p1 london)
 

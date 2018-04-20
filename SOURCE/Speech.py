@@ -1,4 +1,6 @@
 import speech_recognition as sr
+import PredicateUtils
+
 
 class ASR(object):
     def __init__(self):
@@ -44,6 +46,86 @@ class ASR(object):
             except sr.RequestError as e:
                 print("Could not request results from Google Speech Recognition service; {0}".format(e))
         return None
+
+    def undefinedActionMethod(self):
+        print ("Cannot Execute: Action is undefined")
+
+    def speak(self, list_of_actions):
+        nl_texts = []
+        for action in list_of_actions:
+            action_name, action_params = PredicateUtils.extractNameAndParametersFromAction(action)
+            func = getattr(self, action_name, self.undefinedActionMethod)
+            nl_texts.append(func(action_params))
+
+        for sentence in nl_texts:
+            pass
+
+
+    def build_research_station_new(self, params):
+        player = params[0]
+        city = params[1]
+        nl_text = '%(player)s should build a research station at %(city)s' % {'player':player, 'city':city}
+        return nl_text
+
+    def move_research_station(self,params):
+        player = params[0]
+        city1 = params[1]
+        city2 = params[2]
+        nl_text = '%(player)s should move the research station at %(city1)s to %(city2)s' % {'player':player, 'city1':city1, 'city2':city2}
+        return nl_text
+
+    def fly_directly(self, params):
+        player = params[0]
+        fromCity = params[1]
+        toCity = params[2]
+        nl_text = '%(player)s should surrender his %(toCity)s card and then relocate to %(toCity)s' % {'player':player, 'toCity':toCity}
+        return nl_text
+
+
+    def fly_by_charter(self,params):
+        player = params[0]
+        fromCity = params[1]
+        toCity = params[2]
+        pass
+
+    def fly_by_shuttle(self,params):
+        player = params[0]
+        fromCity = params[1]
+        toCity = params[2]
+        pass
+
+    def treat_disease(self,params):
+        player = params[0]
+        disease = params[1]
+        nl_text = '%(player)s should treat %(disease)s' % {'player':player, 'disease':disease}
+        return nl_text
+
+    def treat_cured_disease_begin(self,params):
+        pass
+
+    def treat_cured_disease_end(self,params):
+        pass
+
+    def share_knowledge(self,params):
+        player1 = params[0]
+        player2 = params[1]
+        city = params[2]
+        nl_text = '%(player1)s should give %(city) card to %(player2)s to share knowledge' % {'player1':player1, 'player2':player2,'city':city}
+        return nl_text
+
+    def cure_disease(self,params):
+        player = params[0]
+        city1 = params[1]
+        city2 = params[2]
+        city3 = params[3]
+        city4 = params[4]
+        disease = params[5]
+
+        nl_text = '%(player1)s should surrender %(city1) %(city2) %(city3) and %(city4) cards and mark %(disease) disease as cured' % \
+                  {'player':player, 'city1':city1, 'city2':city2, 'city3':city3, 'city4':city4, 'disease':disease}
+
+        return nl_text
+
 
 if __name__ == "__main__":
     asr = ASR()
