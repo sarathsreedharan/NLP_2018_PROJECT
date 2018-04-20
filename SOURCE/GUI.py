@@ -62,7 +62,17 @@ class Ui_Frame(object):
         self.pushButton.setGeometry(QtCore.QRect(820, 770, 211, 51))
         self.pushButton.setObjectName(_fromUtf8("pushButton"))
 
+        self.executeButton = QtGui.QPushButton(Frame)
+        self.executeButton.setGeometry(QtCore.QRect(900, 510, 141, 51))
+        self.executeButton.setObjectName(_fromUtf8("executeButton"))
+
+        self.updateButton = QtGui.QPushButton(Frame)
+        self.updateButton.setGeometry(QtCore.QRect(900, 210, 141, 51))
+        self.updateButton.setObjectName(_fromUtf8("explainButton"))
+
         QObject.connect(self.pushButton, SIGNAL("clicked()"), lambda obj={"func": "get_assistance", "args": ''}: self.onClicked(obj))
+        QObject.connect(self.executeButton, SIGNAL("clicked()"), lambda obj={"func": "execute_plan", "args": ''}: self.onClicked(obj))
+        QObject.connect(self.updateButton, SIGNAL("clicked()"), lambda obj={"func": "update_state", "args": ''}: self.onClicked(obj))
 
         self.createPlayerLabels(3)
         self.createComboBoxes(3)
@@ -154,6 +164,15 @@ class Ui_Frame(object):
     def get_assistance(self,args):
         self.backend.recognizeVoice(self.onASROut)
 
+    def execute_plan(self,args):
+        self.backend.executePlan()
+
+    def explain_plan(self,args):
+        self.backend.recognizeVoice(self.onASROut, "explain")
+
+    def update_state(self,args):
+        self.backend.updateState()
+
     def change_location(self,comboBox):
         print comboBox.currentText()
 
@@ -176,3 +195,7 @@ class Ui_Frame(object):
         self.location_label.setText(_translate("Frame", "Location", None))
         self.cards_label.setText(_translate("Frame", "Cards", None))
         self.pushButton.setText(_translate("Frame", "Assist Me!", None))
+        self.executeButton.setText(_translate("Frame", "Execute", None))
+        self.updateButton.setText(_translate("Frame", "Update", None))
+
+

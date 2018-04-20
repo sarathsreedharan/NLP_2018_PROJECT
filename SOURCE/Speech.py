@@ -50,16 +50,19 @@ class ASR(object):
     def undefinedActionMethod(self):
         print ("Cannot Execute: Action is undefined")
 
-    def speak(self, list_of_actions):
+    def speak(self, natural_language_sentence_list):
+
+        for sentence in natural_language_sentence_list:
+            pass
+
+    def decodeActionList(self,list_of_actions):
         nl_texts = []
         for action in list_of_actions:
             action_name, action_params = PredicateUtils.extractNameAndParametersFromAction(action)
             func = getattr(self, action_name, self.undefinedActionMethod)
             nl_texts.append(func(action_params))
 
-        for sentence in nl_texts:
-            pass
-
+        return nl_texts
 
     def build_research_station_new(self, params):
         player = params[0]
