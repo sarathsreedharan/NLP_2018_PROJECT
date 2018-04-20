@@ -16,7 +16,7 @@ def getPlayerHasCardPredicates(player):
 
 def getGameVariablePredicate(game_vars):
 
-    template = '(= (research_station_count) %(research_station_count)s)\n' \
+    template = '(= (research_station_count) %(research_station_count)s)' \
                '(= (total_disease_count) %(total_disease_count)s)'
 
     return template % game_vars
@@ -43,8 +43,8 @@ def getBoardModelPredicates(model):
         strs.append(getPlayerLocationPredicate(player))
         strs.extend(getPlayerHasCardPredicates(player))
 
-    for s in strs:
-        print s
+
+    return set(strs)
 
 
 if __name__ == "__main__":
@@ -65,5 +65,5 @@ if __name__ == "__main__":
 
     model = {'players': players, 'cities': cities, 'game_variables': game_variables}
 
-    getBoardModelPredicates(model)
+    print getBoardModelPredicates(model)
 

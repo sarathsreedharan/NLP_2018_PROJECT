@@ -1,5 +1,6 @@
 import Util as util
 import pprint
+import JsonToPredicates
 
 class Model(object):
     def __init__(self):
@@ -14,6 +15,9 @@ class Model(object):
     def show(self):
         pp = pprint.PrettyPrinter(indent=4)
         pp.pprint (self.model)
+
+    def getPredicates(self):
+        return JsonToPredicates.getBoardModelPredicates(self.model)
 
     def setPlayerName(self, playerNo, name):
         self.model['players'][playerNo]['name'] = name
