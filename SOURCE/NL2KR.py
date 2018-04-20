@@ -18,6 +18,8 @@ class NL2KR(object):
         return Util.executeCommand(cmd, self.nl2kr_output_file, config.NL2KR_DIR)
 
     def getLTLRepresentation(self, text_string):
+        with open(config.NL2KR_INPUT_FILE, 'w') as n_fd:
+             n_fd.write(text_string+"\n")        
         result =  self.__execute()
         for line in result:
             if "Predicted result #0" in line:

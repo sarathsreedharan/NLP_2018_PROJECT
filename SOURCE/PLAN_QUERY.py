@@ -4,14 +4,22 @@ import tempfile
 
 __PLAN_CMD__ = "./run_lprgp.sh {} {} {}"
 __READ_BEST_PLAN__ = "./find_and_read_best_plan.sh {}"
+__DOMAIN_FILE_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/domain.pddl"
+__PROB_TEMPL_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/prob_templ.pddl"
+
 
 class PLAN_QUERY:
-    def __init__(self, domain_file, prob_templ):
-        self.domain_file = domain_file
+    def __init__(self, domain_file = __DOMAIN_FILE_LOC__, prob_templ = __PROB_TEMPL_LOC__):
+        with open(domain_file) as d_fd:
+             dom_str = d_fd.read()
+        #self.domain_file = domain_file
         with open(prob_templ) as p_fd:
             self.prob_templ_str = p_fd.read()
         self.workspace = tempfile.mkdtemp()
-#        print ("workspace", self.workspace)
+        self.domain_file = self.workspace + "/domain.pddl"
+        with open(self.domain_file, 'w') as d_fd:
+		d_fd.write(dom_str)
+
 
     def update_curr_state(self, output_plan):
         #TODO
@@ -24,21 +32,18 @@ class PLAN_QUERY:
         if not eval(output):
             return []
 
-        output_plan =  os.popen(__READ_BEST_PLAN__.format(plan_dest)).read().strip().split('\n')
-        self.update_curr_state(output_plan)
+        output_plan_orig =  os.popen(__READ_BEST_PLAN__.format(plan_dest)).read().strip().split('\n')
+        output_plan = []
+        for act in output_plan_orig:
+            if "validate_pieces" not in act:
+                 output_plan.append(act)
+        #self.update_curr_state(output_plan)
         return output_plan
 
     def translate2PDDL(self, curr_str):
-        #query_str = ""
-        #curr_part = ""
-        #for i in range(len(curr_str)):
-        #    if curr_str[i] == '(':
-        #        query_str += " " + curr_part
-        #    elif:
-        #        query_str += curr_str[i]
         new_str = curr_str.replace("atend(", "(at end ")
         new_str = new_str.replace("incity(", "(in_city ")
-        new_str = new_str.replace(",", "")
+        new_str = new_str.replace(",", " ")
         return new_str
 
     def make_problem_file(self, init_state, goal_constr):
@@ -54,7 +59,8 @@ class PLAN_QUERY:
 
         best_plan =  self.run_planner(self.workspace+"/prob.pddl", self.workspace+"/plans")
 
-        return (pq.curr_state, best_plan)
+        #return (self.curr_state, best_plan)
+        return best_plan
 
 
 if __name__ == '__main__':

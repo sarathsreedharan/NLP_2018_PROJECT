@@ -50,7 +50,7 @@
 
     (:action validate_pieces
         :parameters ()
-        :precondition (and (has_board))
+        :precondition (and )
         :effect (and (integrity_check))
     )
     
