@@ -4,6 +4,7 @@ import tempfile
 __PLAN_CMD__ = "./run_lprgp.sh {} {} {}"
 __READ_BEST_PLAN__ = "./find_and_read_best_plan.sh {}"
 __DOMAIN_FILE_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/domain.pddl"
+__DOMAIN_FILE_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/human_domain.pddl"
 __PROB_TEMPL_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/prob_templ.pddl"
 
 class FOIL_GENERATOR:
@@ -35,6 +36,8 @@ class FOIL_GENERATOR:
 
     def translate2PDDL(self, curr_str):
         new_str = curr_str.replace("atend(", "(at end ")
+        new_str = new_str.replace("always(", "(always ")
+        new_str = new_str.replace("not(", "(not ")
         new_str = new_str.replace("incity(", "(in_city ")
         new_str = new_str.replace(",", " ")
         return new_str
@@ -45,7 +48,7 @@ class FOIL_GENERATOR:
             p_fd.write(prob_str)
 
 
-    def query_goal(self, init_state, goal_str, foil_constr):
+    def query_goal(self, init_state, goal_str):
         clean_str = self.translate2PDDL(goal_str)
         self.make_problem_file(init_state, clean_str)
 
@@ -55,13 +58,10 @@ class FOIL_GENERATOR:
 
 
 if __name__ == '__main__':
-    with open('/media/data_mount/mycode/NLP_PROJ_FILES/FOIL_GENERATOR_INTERFACE/domains/test_init_state') as init_fd:
+    with open('/tmp/init_state') as init_fd:
         init = set([i.strip() for i in init_fd.readlines()])
     domain_file = "/media/data_mount/mycode/NLP_PROJ_FILES/FOIL_GENERATOR_INTERFACE/domains/domain.pddl"
     prob_templ = "/media/data_mount/mycode/NLP_PROJ_FILES/FOIL_GENERATOR_INTERFACE/domains/prob_templ.pddl"
-    pq = FOIL_GENERATOR(domain_file, prob_templ, init)
-    print (pq.query_goal("atend(incity(p1, delhi))"))
-    print (pq.curr_state)
-
-
+    pq = FOIL_GENERATOR()
+    print (pq.query_goal(init, "atend(incity(player1,Delhi))"))#"always(not(incity(player1,Delhi)))"))
 

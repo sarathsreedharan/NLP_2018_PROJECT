@@ -38,12 +38,11 @@ class Backend(object):
         # text = self.recognizeVoice(onASROut)
         text = "How can player1 go to Delhi?"
         if text is not None:
-            ltl_representation = self.nl2kr_plan.getLTLRepresentation(text)
-            print ("ltl", ltl_representation)
-
             predicates = self.model.getPredicates()
 
             if query_type == "plan":
+                ltl_representation = self.nl2kr_plan.getLTLRepresentation(text)
+                print ("ltl", ltl_representation)
                 print ("Processing Plan Query ")
                 pq = PLAN_QUERY()
                 plan = pq.query_goal(predicates, ltl_representation)
