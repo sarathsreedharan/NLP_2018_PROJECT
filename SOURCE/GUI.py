@@ -74,6 +74,15 @@ class Ui_Frame(object):
         self.explainButton.setGeometry(QtCore.QRect(900, 580, 141, 51))
         self.explainButton.setObjectName(_fromUtf8("explainButton"))
 
+        self.textInput = QtGui.QPlainTextEdit(Frame)
+        self.textInput.setGeometry(QtCore.QRect(330, 780, 481, 41))
+        self.textInput.setObjectName(_fromUtf8("textInput"))
+        self.textInput.setPlainText("How can I make a research_station in atlanta?")
+
+        self.my_question_label = QtGui.QLabel(Frame)
+        self.my_question_label.setGeometry(QtCore.QRect(202, 790, 121, 22))
+        self.my_question_label.setObjectName(_fromUtf8("my_question_label"))
+
 
         QObject.connect(self.assistButton, SIGNAL("clicked()"), lambda obj={"func": "get_assistance", "args": 'plan'}: self.onClicked(obj))
         QObject.connect(self.executeButton, SIGNAL("clicked()"), lambda obj={"func": "execute_plan", "args": ''}: self.onClicked(obj))
@@ -173,7 +182,12 @@ class Ui_Frame(object):
 
     def get_assistance(self,args):
         query_type = args
-        self.backend.get_assistance(query_type, self.onASROut, self.onPlanningDone)
+        if self.textInput.toPlainText() is None:
+            self.backend.get_assistance(query_type, self.onASROut, self.onPlanningDone)
+        else:
+            question_text = str(self.textInput.toPlainText())
+            self.backend.get_assistance(query_type, None, self.onPlanningDone,question_text)
+
 
     def execute_plan(self,args):
         self.backend.executePlan()
@@ -210,6 +224,8 @@ class Ui_Frame(object):
         self.executeButton.setText(_translate("Frame", "Execute", None))
         self.updateButton.setText(_translate("Frame", "Update Locations", None))
         self.explainButton.setText(_translate("Frame", "Explain Plan", None))
+        self.my_question_label.setText(_translate("Frame", "My Question :", None))
+
 
 
 

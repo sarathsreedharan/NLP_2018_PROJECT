@@ -14,9 +14,9 @@ __EXP_CMD__ = "./run_mmp_script.sh"
 __EXP_FILE__ = "/tmp/exp.dat"
 __VALIDATE_ACTION__ = "(validate_pieces)"
 
-DUMMY_GOAL = "atend(hasResearchStation(atlanta))"
-DUMMY_FOIL_FORMULA = "always(not(incity(player3,atlanta)))"
-DUMMY_PLAN = ['(fly_by_charter player3 arizona atlanta)', '(build_research_station_new player3 atlanta)']
+# DUMMY_GOAL = "atend(hasResearchStation(atlanta))"
+# DUMMY_FOIL_FORMULA = "always(not(incity(player3,atlanta)))"
+# DUMMY_PLAN = ['(fly_by_charter player3 arizona atlanta)', '(build_research_station_new player3 atlanta)']
 
 class Backend(object):
     def __init__(self, model):
@@ -25,9 +25,11 @@ class Backend(object):
         self.nl2kr_plan = NL2KR.NL2KR(config.NL2KR_EXE_PATH, config.NL2KR_CONFIG_PATH, config.NL2KR_OUTPUT_FILE)
         self.nl2kr_explain = NL2KR.NL2KR(config.NL2KR_EXE_PATH, config.NL2KR_CONFIG_PATH, config.NL2KR_OUTPUT_FILE)
 
-    def recognizeVoice(self, gui_callback, query_type = "plan"):
+        self.storage = {}
+
+
+    def recognizeVoice(self, gui_callback):
         text = self.asr.recognize()
-        # text = "How can player1 go to Delhi?"
         if text is None:
             response = "I'm sorry, could you please repeat that."
             gui_callback(response)
@@ -37,47 +39,61 @@ class Backend(object):
 
         return text
 
+    def store(self,key,value):
+        self.storage[key] = value
+
+    def retrieve(self, key):
+        return self.storage[key]
 
 
-    def get_assistance(self, query_type, onASROut, onPlanningDoneGUI):
+
+    def get_assistance(self, query_type, onASROut, onPlanningDoneGUI, question_text = None):
         print ("Query Type: ",query_type)
+        if question_text is not None:
+            text = question_text
+        else:
+            text = self.recognizeVoice(onASROut)
 
-        # text = self.recognizeVoice(onASROut)
-        text = "How can I make a research_station in atlanta?"
         if text is not None:
             predicates = self.model.getPredicates()
 
             if query_type == "plan":
                 ltl_representation = self.nl2kr_plan.getLTLRepresentation(text)
-                ltl_representation = DUMMY_GOAL
                 print ("ltl", ltl_representation)
                 print ("Processing Plan Query ")
                 pq = PLAN_QUERY()
                 plan = pq.query_goal(predicates, ltl_representation)
+                self.store('last_computed_goal', ltl_representation)
+                self.store('last_computed_plan', plan)
                 actionListInNaturalLang = self.asr.decodeActionList(plan)
                 s = Util.enumStringFromList(actionListInNaturalLang)
                 onPlanningDoneGUI(s)
 
             elif query_type == "explain":
                 print ("Processing Explain Query ")
+                ltl_representation = self.nl2kr_plan.getLTLRepresentation(text)
+                last_computed_goal = self.retrieve('last_computed_goal')
+                last_computed_plan = self.retrieve('last_computed_plan')
+                print "Explaination Goal :" + str(last_computed_goal)
+                print "Explaination Plan :" + str(last_computed_plan)
                 fg = FOIL_GENERATOR()
-                foil = fg.query_goal(predicates, DUMMY_GOAL, DUMMY_FOIL_FORMULA)
+                foil = fg.query_goal(predicates, last_computed_goal, ltl_representation)
 
                 if len(foil) != 0:
                     with open(__FOIL_DST__, 'w') as f_fd:
                          f_fd.write("\n".join(foil))
                     #TODO:create_problem_for_explanation(curr_state, goal, prob_dst)
-                    self.create_problem_for_explanation(predicates, DUMMY_GOAL, __PROB_DST__)
+                    self.create_problem_for_explanation(predicates, last_computed_goal, __PROB_DST__)
 
                     #TODO:write plan
                     with open(__PLAN_DST__, 'w') as p_fd:
-                         p_fd.write("\n".join([__VALIDATE_ACTION__] + DUMMY_PLAN))
+                         p_fd.write("\n".join([__VALIDATE_ACTION__] + last_computed_plan))
                     self.bash_cmd_exec(__EXP_CMD__)
 
                     with open(__EXP_FILE__) as e_fd:
                          explanation = e_fd.read()
                     #TODO: Send the explanation to GUI
-                    print "explanation",explanation
+                    onPlanningDoneGUI("explanation"+explanation)
 
     def update_goal_str(self, curr_str):
         new_str = curr_str.replace("atend(", "(at end ")

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'design.ui'
 #
-# Created: Fri Apr 20 10:27:54 2018
+# Created: Fri Apr 20 19:41:36 2018
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -133,6 +133,7 @@ class Ui_Frame(object):
         self.pushButton_8.setText(_translate("Frame", "Execute", None))
         self.pushButton_9.setText(_translate("Frame", "Update", None))
         self.pushButton_10.setText(_translate("Frame", "Follow Up", None))
+        self.my_question_label.setText(_translate("Frame", "My Question :", None))
 
 
 if __name__ == "__main__":

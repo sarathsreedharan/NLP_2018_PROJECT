@@ -330,6 +330,29 @@
     <string>Follow Up</string>
    </property>
   </widget>
+  <widget class="QPlainTextEdit" name="textInput">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>780</y>
+     <width>481</width>
+     <height>41</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="my_question_label">
+   <property name="geometry">
+    <rect>
+     <x>202</x>
+     <y>790</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>My Question :</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
