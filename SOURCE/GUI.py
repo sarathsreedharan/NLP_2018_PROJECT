@@ -77,7 +77,7 @@ class Ui_Frame(object):
         self.textInput = QtGui.QPlainTextEdit(Frame)
         self.textInput.setGeometry(QtCore.QRect(330, 780, 481, 41))
         self.textInput.setObjectName(_fromUtf8("textInput"))
-        self.textInput.setPlainText("How can I make a research_station in atlanta?")
+        self.textInput.setPlainText("How can player1 to to delhi?")
 
         self.my_question_label = QtGui.QLabel(Frame)
         self.my_question_label.setGeometry(QtCore.QRect(202, 790, 121, 22))
