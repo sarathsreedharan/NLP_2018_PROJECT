@@ -2,11 +2,14 @@
 (:domain endemic)
 (:objects
     delhi - city
-    bombay - city
+    mumbai - city
     london - city
-    phoenix - city
-    p1 - player
-    p2 - player
+    arizona - city
+    johannesburg - city
+    atlanta - city
+    player1 - player
+    player2 - player
+    player3 - player
     ebola - disease
 )
 (:init
@@ -19,8 +22,7 @@
 )
 (:constraints
 (and 
-    (preference p1 {})            
-    (preference p2 {}) 
+    {}            
 )
 )
 (:metric minimize  (+ (* 1.6 (is-violated p1)) 0)

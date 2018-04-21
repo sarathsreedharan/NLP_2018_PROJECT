@@ -3,7 +3,8 @@
 from PDDLhelp import *
 from Search   import astarSearch
 import copy, argparse, os, sys
-
+from signal import signal, SIGPIPE, SIG_DFL
+signal(SIGPIPE,SIG_DFL) 
 '''
 Class :: Environment Definition
 '''
@@ -28,22 +29,22 @@ class Problem:
             self.plan = temp #[:-1]
             self.cost = len(self.plan)#int(temp[-1].split(' ')[3].strip())
         ground(robotModelFile, problemFile)
-        self.groundedRobotPlanFile   = '../domains/cache_grounded_plan.dat'
+        self.groundedRobotPlanFile   = '/tmp/cache_grounded_plan.dat'
 
 
         with open(self.groundedRobotPlanFile, 'w') as plan_file:
             plan_file.write('\n'.join(['{}'.format(item) for item in self.plan]) + '\n; cost = {} (unit cost)'.format(self.cost))
 
-        self.foil_file = '../domains/foil_plan.dat'
+        self.foil_file = '/tmp/foil_plan.dat'
 
         with open(self.foil_file, 'w') as plan_file:
             plan_file.write('\n'.join(['{}'.format(item) for item in self.foil]) + '\n')
 
-        self.ground_state = read_state_from_domain_file('tr-domain.pddl')
+        self.ground_state = read_state_from_domain_file('/tmp/tr-domain.pddl')
         
         ground(humanModelFile, humanProblemFile)
 
-        try:    self.initialState = read_state_from_domain_file('tr-domain.pddl')
+        try:    self.initialState = read_state_from_domain_file('/tmp/tr-domain.pddl')
         except: self.initialState = []
 
         
@@ -51,7 +52,7 @@ class Problem:
         return self.initialState
 
     def isGoal(self, state):
-        temp_problem = 'tr-problem.pddl'
+        temp_problem = '/tmp/tr-problem.pddl'
         temp_domain = write_domain_file_from_state(state, self.domainTemplate)
         feasibility_flag = validate_plan(temp_domain, temp_problem, self.groundedRobotPlanFile)
         if not feasibility_flag:
@@ -117,11 +118,15 @@ def main():
         
         explanation      = ''
         for item in plan:
-            explanation += "Explanation >> {}\n".format(item)
+            exp_parts = item.split('-has-precondition-')
+            #explanation += "Explanation >> The action {} requires the precondition {}\n".format(exp_parts[0],exp_parts[1].split(' ')[0][1:])
+            explanation += "The action {} requires the precondition {}\n".format(exp_parts[0],exp_parts[1].split(' ')[0][1:])
 
         print explanation.strip()
-        with open('exp.dat', 'w') as explanation_file:
+        with open('/tmp/exp.dat', 'w') as explanation_file:
             explanation_file.write(explanation.strip())
+        sys.stdout.flush()
+        sys.stdout.close()
         
 
 if __name__ == '__main__':

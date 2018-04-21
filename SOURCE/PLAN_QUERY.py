@@ -43,6 +43,7 @@ class PLAN_QUERY:
     def translate2PDDL(self, curr_str):
         new_str = curr_str.replace("atend(", "(at end ")
         new_str = new_str.replace("incity(", "(in_city ")
+        new_str = new_str.replace("hasResearchStation(", "(has_research_station ")
         new_str = new_str.replace(",", " ")
         return new_str
 

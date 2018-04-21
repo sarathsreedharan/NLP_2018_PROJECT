@@ -3,9 +3,9 @@ import tempfile
 
 __PLAN_CMD__ = "./run_lprgp.sh {} {} {}"
 __READ_BEST_PLAN__ = "./find_and_read_best_plan.sh {}"
-__DOMAIN_FILE_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/domain.pddl"
+#__DOMAIN_FILE_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/domain.pddl"
 __DOMAIN_FILE_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/human_domain.pddl"
-__PROB_TEMPL_LOC__ = "../src/PLAN_QUERY_INTERFACE/domains/prob_templ.pddl"
+__PROB_TEMPL_LOC__ = "../src/EXPLANATION_QUERY_INTERFACE/FOIL_GENERATOR/domains/prob_templ.pddl"
 
 class FOIL_GENERATOR:
     def __init__(self, domain_file = __DOMAIN_FILE_LOC__, prob_templ = __PROB_TEMPL_LOC__):
@@ -39,18 +39,20 @@ class FOIL_GENERATOR:
         new_str = new_str.replace("always(", "(always ")
         new_str = new_str.replace("not(", "(not ")
         new_str = new_str.replace("incity(", "(in_city ")
+        new_str = new_str.replace("hasResearchStation(", "(has_research_station ")
         new_str = new_str.replace(",", " ")
         return new_str
 
-    def make_problem_file(self, init_state, goal_constr):
-        prob_str = self.prob_templ_str.format("\n".join(init_state), goal_constr)
+    def make_problem_file(self, init_state, goal_constr, foil_constr):
+        prob_str = self.prob_templ_str.format("\n".join(init_state), goal_constr, foil_constr)
         with open(self.workspace+"/prob.pddl", "w") as p_fd:
             p_fd.write(prob_str)
 
 
-    def query_goal(self, init_state, goal_str):
+    def query_goal(self, init_state, goal_str, foil_str):
         clean_str = self.translate2PDDL(goal_str)
-        self.make_problem_file(init_state, clean_str)
+        clean_str2 = self.translate2PDDL(foil_str)
+        self.make_problem_file(init_state, clean_str, clean_str2)
 
         best_plan =  self.run_planner(self.workspace+"/prob.pddl", self.workspace+"/plans")
 

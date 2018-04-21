@@ -1,25 +1,18 @@
 #!/usr/bin/env python
 
-'''
-Topic   :: Help with PDDL stuff
-Project :: Explanations for Multi-Model Planning
-Author  :: Tathagata Chakraborti
-Date    :: 09/29/2016
-'''
 
-import re, os
+import re, os, sys
 
 
 '''
 Global :: global variables
 '''
 
-__DOMAIN_SOURCE__ = '../../domain/domain_template.pddl'
+curr_path = os.path.dirname(sys.argv[0])
 
-__GROUND_CMD__    = "./ground.sh {} {} > stdout.txt"
-__FD_PLAN_CMD__   = "./fdplan.sh {} {}"
-__VAL_PLAN_CMD__  = "./valplan.sh {} {} {}"
-
+__GROUND_CMD__    = curr_path + "/ground.sh {} {} > stdout.txt"
+__FD_PLAN_CMD__   = curr_path + "/fdplan.sh {} {}"
+__VAL_PLAN_CMD__  = curr_path + "/valplan.sh {} {} {}"
 
 
 def get_problem_state_preds(problem_lines, section_prefix):
@@ -49,6 +42,7 @@ def write_domain_file_from_state(state, domain_source):
 
     for item in state:
         if "state" not in item:
+            #print item
             regex_probe   = re.compile("(.*)-has-(parameters|precondition|add-effect|delete-effect)-(.*)$").search(item)
             actionName    = regex_probe.group(1)
             _condition    = regex_probe.group(2)
@@ -61,14 +55,6 @@ def write_domain_file_from_state(state, domain_source):
                 actionList[actionName][_condition] = predicateName
             else:
                 actionList[actionName][_condition].append(predicateName) 
-        else:
-            regex_probe   = re.compile("has-(initial|goal)-state-(.*)$").search(item)
-            state_type = regex_probe.group(1)
-            pred = regex_probe.group(2)
-            if state_type == 'initial':
-                init_state_list.append(' '.join(pred.split('@')))
-            else:
-                goal_state_list.append(' '.join(pred.split('@')))
 
     temp_domainFileName = 'temp.pddl'
     temp_problemFileName = 'temp_prob.pddl'
@@ -85,9 +71,10 @@ def write_domain_file_from_state(state, domain_source):
                                      .format(key, actionList[key]['parameters'],'\n'.join(['{}'.format(p) for p in actionList[key]['precondition']]), \
                                              '{}\n{}'.format('\n'.join([' {} '.format(p) for p in actionList[key]['add-effect']]), \
                                                              '\n'.join(['(not {} )'.format(p) for p in actionList[key]['delete-effect']]))) for key in actionList.keys()])
+        #print actionList['cure_disease']['delete-effect']
         
         temp_domain_file.write(template_domain.format(actionString))
-
+    #exit(0)
     return temp_domainFileName
         
 
@@ -143,6 +130,8 @@ def read_state_from_domain_file(domainFileName):
             state.append('{}-has-add-effect-{}'.format(actionName, effect))
         for effect in action_dict[key][4]:
             state.append('{}-has-delete-effect-{}'.format(actionName, effect))
+    #print state
+    #exit(0)
     return state
 
 
@@ -168,7 +157,7 @@ Method :: ground PDDL domain and problem files
 
 def ground(domainFileName, problemFileName):
 
-    output = os.system('./clean.sh')
+    output = os.system(curr_path+'/clean.sh')
     output = os.system(__GROUND_CMD__.format(domainFileName, problemFileName))
 
 
@@ -182,6 +171,7 @@ Method :: validate plan given PDDL domain and problem files
 #    return eval(output)
 
 def validate_plan(domainFileName, problemFileName, planFileName):
+    #print __VAL_PLAN_CMD__.format(domainFileName, problemFileName, planFileName)
     output = os.popen(__VAL_PLAN_CMD__.format(domainFileName, problemFileName, planFileName)).read().strip()
     return eval(output)
 

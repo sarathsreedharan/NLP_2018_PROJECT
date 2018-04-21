@@ -121,8 +121,7 @@
         :precondition (and (in_city ?p1 ?c1) (has_research_station ?c1) 
         (has_city_card ?p1 ?c2) (has_city_card ?p1 ?c3) (has_city_card ?p1 ?c4)
         (not (= ?c2 ?c3)) (not (= ?c3 ?c4)) (not (= ?c3 ?c4))) 
-        :effect (and (not (has_city_card ?p1 ?c2)) (not (has_city_card ?p1 ?c3))
-                     (not (has_city_card ?p1 ?c4)) (is_cured ?d))
+        :effect (and (not (has_city_card ?p1 ?c2)) (not (has_city_card ?p1 ?c3)) (not (has_city_card ?p1 ?c4)) (is_cured ?d))
     )
 ;new_act
 )

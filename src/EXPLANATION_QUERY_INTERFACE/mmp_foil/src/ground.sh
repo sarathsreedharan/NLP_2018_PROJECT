@@ -6,6 +6,6 @@
 # ground domain and problem input using pr2plan #
 echo "a $1"
 echo "b $2"
-rm -f *-domain.pddl *-problem.pddl obs.dat
-cp $1 tr-domain.pddl
-cp $2 tr-problem.pddl
+rm -f /tmp/*-domain.pddl /tmp/*-problem.pddl 
+cp $1 /tmp/tr-domain.pddl
+cp $2 /tmp/tr-problem.pddl

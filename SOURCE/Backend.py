@@ -4,12 +4,19 @@ import config
 from PLAN_QUERY import PLAN_QUERY
 from FOIL_GENERATOR import FOIL_GENERATOR
 import Util
+import os,sys
+
 __PROB_TMPL_SRC__ = "../src/EXPLANATION_QUERY_INTERFACE/mmp_foil/domains/prob_templ.pddl"
 __PROB_DST__ = "/tmp/curr_problem.pddl"
 __FOIL_DST__ = "/tmp/curr_foil.sol"
 __PLAN_DST__ = "/tmp/curr_plan.sol"
 __EXP_CMD__ = "./run_mmp_script.sh"
 __EXP_FILE__ = "/tmp/exp.dat"
+__VALIDATE_ACTION__ = "(validate_pieces)"
+
+DUMMY_GOAL = "atend(hasResearchStation(atlanta))"
+DUMMY_FOIL_FORMULA = "always(not(incity(player3,atlanta)))"
+DUMMY_PLAN = ['(fly_by_charter player3 arizona atlanta)', '(build_research_station_new player3 atlanta)']
 
 class Backend(object):
     def __init__(self, model):
@@ -36,12 +43,13 @@ class Backend(object):
         print ("Query Type: ",query_type)
 
         # text = self.recognizeVoice(onASROut)
-        text = "How can player1 go to Delhi?"
+        text = "How can I make a research_station in atlanta?"
         if text is not None:
             predicates = self.model.getPredicates()
 
             if query_type == "plan":
                 ltl_representation = self.nl2kr_plan.getLTLRepresentation(text)
+                ltl_representation = DUMMY_GOAL
                 print ("ltl", ltl_representation)
                 print ("Processing Plan Query ")
                 pq = PLAN_QUERY()
@@ -53,22 +61,38 @@ class Backend(object):
             elif query_type == "explain":
                 print ("Processing Explain Query ")
                 fg = FOIL_GENERATOR()
-                foil = fg.query_goal(predicates, ltl_representation)
+                foil = fg.query_goal(predicates, DUMMY_GOAL, DUMMY_FOIL_FORMULA)
+
                 if len(foil) != 0:
                     with open(__FOIL_DST__, 'w') as f_fd:
                          f_fd.write("\n".join(foil))
                     #TODO:create_problem_for_explanation(curr_state, goal, prob_dst)
+                    self.create_problem_for_explanation(predicates, DUMMY_GOAL, __PROB_DST__)
+
                     #TODO:write plan
+                    with open(__PLAN_DST__, 'w') as p_fd:
+                         p_fd.write("\n".join([__VALIDATE_ACTION__] + DUMMY_PLAN))
                     self.bash_cmd_exec(__EXP_CMD__)
+
                     with open(__EXP_FILE__) as e_fd:
                          explanation = e_fd.read()
-                  #TODO: Send the explanation to GUI
+                    #TODO: Send the explanation to GUI
+                    print "explanation",explanation
+
+    def update_goal_str(self, curr_str):
+        new_str = curr_str.replace("atend(", "(at end ")
+        new_str = new_str.replace("always(", "(always ")
+        new_str = new_str.replace("not(", "(not ")
+        new_str = new_str.replace("incity(", "(in_city ")
+        new_str = new_str.replace("hasResearchStation(", "(has_research_station ")
+        new_str = new_str.replace(",", " ")
+        return new_str
 
     def create_problem_for_explanation(self, curr_state, goal, prob_dst):
         with open(__PROB_TMPL_SRC__) as p_fd:
              prob_tmp_str = p_fd.read()
-        prob_str = prob_tmp_str.format(curr_state, goal)
-        with open(prob_dst) as p_fd:
+        prob_str = prob_tmp_str.format("\n".join(list(curr_state)), self.update_goal_str(goal))
+        with open(prob_dst, 'w') as p_fd:
              p_fd.write(prob_str)
 
     def bash_cmd_exec(self, cmd):
