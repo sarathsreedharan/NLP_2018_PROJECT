@@ -25,8 +25,8 @@ class PlanExecutor(object):
         player = params[0]
         fromCity = params[1]
         toCity = params[2]
-        self.data_model.removeCardFromPlayer(player, toCity)
-        self.data_model.setPlayerLocation(player, toCity)
+        self.data_model.removeCardFromPlayerByName(player, toCity)
+        self.data_model.setPlayerLocationByName(player, toCity)
 
     def fly_by_charter(self,params):
         player = params[0]

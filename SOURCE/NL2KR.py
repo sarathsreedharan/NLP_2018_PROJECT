@@ -1,6 +1,7 @@
 import Util
 import config
 
+
 class NL2KR(object):
     def __init__(self, nl2kr_exe_path, nl2kr_config_path, nl2kr_output_file):
         self.nl2kr_exe_path = nl2kr_exe_path
@@ -19,6 +20,7 @@ class NL2KR(object):
     def __execute(self):
         cmd = self.nl2kr_exe_path + " " + self.nl2kr_config_path
         return Util.executeCommand(cmd, self.nl2kr_output_file, config.NL2KR_DIR)
+
     def return_closest_words(self, word):
         '''
            TODO: Use the word2vec distance to find
@@ -33,18 +35,17 @@ class NL2KR(object):
                 new_words.append(w)
             else:
                 new_words.append(self.return_closest_words(w))
-         return " ".join(new_words)
+        return " ".join(new_words)
 
     def getLTLRepresentation(self, old_text_string):
-        text_parts = text_string.split(" ")
-        text_string = self.update_with_dict_words()
+        text_parts = old_text_string.split(" ")
+        text_string = self.update_with_dict_words(text_parts)
         with open(config.NL2KR_INPUT_FILE, 'w') as n_fd:
-             n_fd.write(text_string+"\n")        
-        result =  self.__execute()
+            n_fd.write(text_string + "\n")
+        result = self.__execute()
         for line in result:
             if "Predicted result #0" in line:
                 return line.split(":")[1][1:]
-
 
 #
 # if __name__ == "__main__":

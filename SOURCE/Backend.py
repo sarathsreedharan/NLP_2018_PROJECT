@@ -5,6 +5,7 @@ from PLAN_QUERY import PLAN_QUERY
 from FOIL_GENERATOR import FOIL_GENERATOR
 import Util
 import os,sys
+from Executor import PlanExecutor
 
 __PROB_TMPL_SRC__ = "../src/EXPLANATION_QUERY_INTERFACE/mmp_foil/domains/prob_templ.pddl"
 __PROB_DST__ = "/tmp/curr_problem.pddl"
@@ -22,6 +23,7 @@ class Backend(object):
     def __init__(self, model):
         self.model = model
         self.asr = Speech.ASR()
+        self.planExecutor = PlanExecutor(self.model)
         self.nl2kr_plan = NL2KR.NL2KR(config.NL2KR_EXE_PATH, config.NL2KR_CONFIG_PATH, config.NL2KR_OUTPUT_FILE)
         self.nl2kr_explain = NL2KR.NL2KR(config.NL2KR_EXE_PATH, config.NL2KR_CONFIG_PATH, config.NL2KR_OUTPUT_FILE)
 
@@ -116,4 +118,4 @@ class Backend(object):
         return output
 
     def executePlan(self):
-        pass
+        self.planExecutor.execute(self.retrieve('last_computed_plan'))

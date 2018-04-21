@@ -191,6 +191,8 @@ class Ui_Frame(object):
 
     def execute_plan(self,args):
         self.backend.executePlan()
+        self.doRepaint(self.model)
+
 
     def update_locations(self,args):
         for i,comboBox in enumerate(self.comboBoxes):

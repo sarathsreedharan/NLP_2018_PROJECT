@@ -41,20 +41,17 @@ class Model(object):
 
 
 
-
-
-
     def setPlayerLocationByName(self, playerName, newcity):
         playerNo = self.playerNameNumberMap[playerName]
-        self.__setPlayerLocation(playerNo, newcity)
+        self.setPlayerLocation(playerNo, newcity)
 
     def setPlayerCardsByName(self, playerName, card_list):
         playerNo = self.playerNameNumberMap[playerName]
-        self.__setPlayerCards(playerNo, card_list)
+        self.setPlayerCards(playerNo, card_list)
 
     def removeCardFromPlayerByName(self, playerName,card):
         playerNo = self.playerNameNumberMap[playerName]
-        self.__removeCardFromPlayer(playerNo, card)
+        self.removeCardFromPlayer(playerNo, card)
 
     def addResearchStation(self, city_name):
         for city in self.model['cities']:
