@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'design.ui'
 #
-# Created: Fri Apr 20 19:41:36 2018
+# Created: Sat Apr 21 17:30:51 2018
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,9 +55,6 @@ class Ui_Frame(object):
         self.player3_label = QtGui.QLabel(Frame)
         self.player3_label.setGeometry(QtCore.QRect(710, 90, 83, 22))
         self.player3_label.setObjectName(_fromUtf8("player3_label"))
-        self.graph_box = QtGui.QListWidget(Frame)
-        self.graph_box.setGeometry(QtCore.QRect(100, 360, 511, 401))
-        self.graph_box.setObjectName(_fromUtf8("graph_box"))
         self.plan_output = QtGui.QListWidget(Frame)
         self.plan_output.setGeometry(QtCore.QRect(620, 360, 251, 401))
         self.plan_output.setObjectName(_fromUtf8("plan_output"))
@@ -112,6 +109,19 @@ class Ui_Frame(object):
         self.pushButton_10 = QtGui.QPushButton(Frame)
         self.pushButton_10.setGeometry(QtCore.QRect(900, 580, 141, 51))
         self.pushButton_10.setObjectName(_fromUtf8("pushButton_10"))
+        self.textInput = QtGui.QPlainTextEdit(Frame)
+        self.textInput.setGeometry(QtCore.QRect(330, 780, 481, 41))
+        self.textInput.setObjectName(_fromUtf8("textInput"))
+        self.my_question_label = QtGui.QLabel(Frame)
+        self.my_question_label.setGeometry(QtCore.QRect(202, 790, 121, 22))
+        self.my_question_label.setObjectName(_fromUtf8("my_question_label"))
+        self.graphicsView = QtGui.QGraphicsView(Frame)
+        self.graphicsView.setGeometry(QtCore.QRect(80, 370, 491, 381))
+        self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
+        scene = QtGui.QGraphicsScene()
+        pixmap = QtGui.QPixmap('/home/midhun/Pictures/test.svg')
+        scene.addPixmap(pixmap)
+        self.graphicsView.setScene(scene)
 
         self.retranslateUi(Frame)
         QtCore.QMetaObject.connectSlotsByName(Frame)

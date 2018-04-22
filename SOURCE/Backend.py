@@ -58,9 +58,12 @@ class Backend(object):
 
         if text is not None:
             predicates = self.model.getPredicates()
+            ltl_representation = self.nl2kr_plan.getLTLRepresentation(text)
+            if ltl_representation is None:
+                onPlanningDoneGUI("ERR!: LTL Representation Couldn't be found \n")
+                return
 
             if query_type == "plan":
-                ltl_representation = self.nl2kr_plan.getLTLRepresentation(text)
                 print ("ltl", ltl_representation)
                 print ("Processing Plan Query ")
                 pq = PLAN_QUERY()
@@ -72,8 +75,8 @@ class Backend(object):
                 onPlanningDoneGUI(s)
 
             elif query_type == "explain":
+                print ("ltl", ltl_representation)
                 print ("Processing Explain Query ")
-                ltl_representation = self.nl2kr_plan.getLTLRepresentation(text)
                 last_computed_goal = self.retrieve('last_computed_goal')
                 last_computed_plan = self.retrieve('last_computed_plan')
                 print "Explaination Goal :" + str(last_computed_goal)

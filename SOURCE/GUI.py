@@ -10,6 +10,7 @@
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import QObject, SIGNAL
 import Data
+import config
 
 try:
     _fromUtf8 = QtCore.QString.fromUtf8
@@ -50,10 +51,6 @@ class Ui_Frame(object):
         self.cards_label.setGeometry(QtCore.QRect(20, 230, 83, 22))
         self.cards_label.setObjectName(_fromUtf8("cards_label"))
 
-        self.graph_box = QtGui.QPlainTextEdit(self.Frame)
-        self.graph_box.setGeometry(QtCore.QRect(100, 360, 511, 401))
-        self.graph_box.setObjectName(_fromUtf8("graph_box"))
-
         self.plan_output = QtGui.QPlainTextEdit(self.Frame)
         self.plan_output.setGeometry(QtCore.QRect(620, 360, 251, 401))
         self.plan_output.setObjectName(_fromUtf8("plan_output"))
@@ -82,6 +79,10 @@ class Ui_Frame(object):
         self.my_question_label = QtGui.QLabel(Frame)
         self.my_question_label.setGeometry(QtCore.QRect(202, 790, 121, 22))
         self.my_question_label.setObjectName(_fromUtf8("my_question_label"))
+
+        self.graphicsView = QtGui.QGraphicsView(Frame)
+        self.graphicsView.setGeometry(QtCore.QRect(80, 370, 491, 381))
+        self.graphicsView.setObjectName(_fromUtf8("graphicsView"))
 
 
         QObject.connect(self.assistButton, SIGNAL("clicked()"), lambda obj={"func": "get_assistance", "args": 'plan'}: self.onClicked(obj))
@@ -173,11 +174,19 @@ class Ui_Frame(object):
                 self.cardDecks[i]['cardDeck'].addItem(card.upper())
                 self.labels[i].setText(player['name'])
 
+        self.__loadSVG(config.GRAPH_FILE)
+
     def onASROut(self, text):
         self.plan_output.appendPlainText(text)
 
     def onPlanningDone(self, plan):
         self.plan_output.appendPlainText(plan)
+
+    def __loadSVG(self, file):
+        scene = QtGui.QGraphicsScene()
+        pixmap = QtGui.QPixmap(file)
+        scene.addPixmap(pixmap)
+        self.graphicsView.setScene(scene)
 
 
     def get_assistance(self,args):

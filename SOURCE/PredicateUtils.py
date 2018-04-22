@@ -52,24 +52,24 @@ def getBoardModelPredicates(model):
 
     return set(strs)
 
-
-if __name__ == "__main__":
-
-    players = [
-        {'name': "player1", "city": "London", "cards": ['Delhi', 'Mumbai']},
-        {'name': "player2", "city": "Delhi", "cards": ['London', 'Atlanta']},
-        {'name': "player3", "city": "Arizona", "cards": ['Egypt', 'Johannesburg']},
-    ]
-
-    cities = [
-        {"city_name": "Delhi", "disease_count": 3, "research_station_count": 0},
-        {"city_name": "Mumbai", "disease_count": 1, "research_station_count": 0},
-        {"city_name": "Arizona", "disease_count": 2, "research_station_count": 0}
-    ]
-
-    game_variables = {"research_station_count": 0, "total_disease_count": 3}
-
-    model = {'players': players, 'cities': cities, 'game_variables': game_variables}
-
-    print getBoardModelPredicates(model)
-
+#
+# if __name__ == "__main__":
+#
+#     players = [
+#         {'name': "player1", "city": "London", "cards": ['Delhi', 'Mumbai']},
+#         {'name': "player2", "city": "Delhi", "cards": ['London', 'Atlanta']},
+#         {'name': "player3", "city": "Arizona", "cards": ['Egypt', 'Johannesburg']},
+#     ]
+#
+#     cities = [
+#         {"city_name": "Delhi", "disease_count": 3, "research_station_count": 0},
+#         {"city_name": "Mumbai", "disease_count": 1, "research_station_count": 0},
+#         {"city_name": "Arizona", "disease_count": 2, "research_station_count": 0}
+#     ]
+#
+#     game_variables = {"research_station_count": 0, "total_disease_count": 3}
+#
+#     model = {'players': players, 'cities': cities, 'game_variables': game_variables}
+#
+#     print getBoardModelPredicates(model)
+#

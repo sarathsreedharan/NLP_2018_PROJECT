@@ -110,16 +110,6 @@
     <string>Player 3</string>
    </property>
   </widget>
-  <widget class="QListWidget" name="graph_box">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>360</y>
-     <width>511</width>
-     <height>401</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QListWidget" name="plan_output">
    <property name="geometry">
     <rect>
@@ -351,6 +341,16 @@
    </property>
    <property name="text">
     <string>My Question :</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="graphicsView">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>370</y>
+     <width>491</width>
+     <height>381</height>
+    </rect>
    </property>
   </widget>
  </widget>

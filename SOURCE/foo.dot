@@ -1,0 +1,15 @@
+strict graph  {
+	node [label="\N"];
+	johannesburg	 [label="johannesburg [2]"];
+	delhi	 [label="delhi [3]"];
+	johannesburg -- delhi;
+	london	 [label="london [1]"];
+	johannesburg -- london;
+	delhi -- london;
+	arizona	 [label="arizona [2]"];
+	delhi -- arizona;
+	london -- arizona;
+	mumbai	 [label="mumbai [2]"];
+	london -- mumbai;
+	arizona -- mumbai;
+}

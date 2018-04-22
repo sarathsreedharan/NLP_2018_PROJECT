@@ -1,6 +1,8 @@
 import Util as util
 import pprint
 import PredicateUtils
+import GraphUtils
+
 
 class Model(object):
     def __init__(self):
@@ -18,6 +20,23 @@ class Model(object):
 
     def getPredicates(self):
         return PredicateUtils.getBoardModelPredicates(self.model)
+
+    def getCityConnectedToMap(self):
+        cityConnectedToMap = {}
+        for city in self.model['cities']:
+            connecteToCities = city['connected_to']
+            cityConnectedToMap[city['city_name']]=connecteToCities
+
+        return cityConnectedToMap
+
+    def getCityDiseaseCountsMap(self):
+        cityDeseaseCountMap = {}
+        for city in self.model['cities']:
+            disease_count = city['disease_count']
+            cityDeseaseCountMap[city['city_name']]=disease_count
+
+        return cityDeseaseCountMap
+
 
     def setPlayerName(self, playerNo, name):
         self.model['players'][playerNo]['name'] = name
@@ -38,8 +57,6 @@ class Model(object):
         if(card != ''):
             card_list = self.model['players'][playerNo]['cards']
             card_list.append(card)
-
-
 
     def setPlayerLocationByName(self, playerName, newcity):
         playerNo = self.playerNameNumberMap[playerName]
@@ -62,6 +79,7 @@ class Model(object):
         for city in self.model['cities']:
             if util.isEqualStr(city['city_name'], city_name):
                 city['disease_count'] = newcount
+        GraphUtils.createGraph(self.model)
 
     def getCityNames(self):
         cities = []
@@ -73,24 +91,24 @@ modelObj = Model()
 
 
 
-
-def main():
-    players = [
-        {'name': "player1", "city": "London", "cards": ['Delhi', 'Mumbai']},
-        {'name': "player2", "city": "Delhi", "cards": ['London', 'Atlanta']},
-        {'name': "player3", "city": "Arizona", "cards": ['Egypt', 'Johannesburg']},
-    ]
-
-    cities = [
-        {"city_name": "Delhi", "disease_count": 3, "research_station_count": 0},
-        {"city_name": "Mumbai", "disease_count": 1, "research_station_count": 0},
-        {"city_name": "Arizona", "disease_count": 2, "research_station_count": 0}
-    ]
-
-    game_variables = {"research_station_count": 0, "total_disease_count": 3}
-
-    model = {'players': players, 'cities': cities, 'game_variables': game_variables}
-
-
-if __name__ == "__main__":
-    main()
+#
+# def main():
+#     players = [
+#         {'name': "player1", "city": "London", "cards": ['Delhi', 'Mumbai']},
+#         {'name': "player2", "city": "Delhi", "cards": ['London', 'Atlanta']},
+#         {'name': "player3", "city": "Arizona", "cards": ['Egypt', 'Johannesburg']},
+#     ]
+#
+#     cities = [
+#         {"city_name": "Delhi", "disease_count": 3, "research_station_count": 0},
+#         {"city_name": "Mumbai", "disease_count": 1, "research_station_count": 0},
+#         {"city_name": "Arizona", "disease_count": 2, "research_station_count": 0}
+#     ]
+#
+#     game_variables = {"research_station_count": 0, "total_disease_count": 3}
+#
+#     model = {'players': players, 'cities': cities, 'game_variables': game_variables}
+#
+#
+# if __name__ == "__main__":
+#     main()

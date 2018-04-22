@@ -3,6 +3,7 @@ from PyQt4 import QtCore, QtGui
 import GUI
 import sys
 from Backend import Backend
+import GraphUtils
 
 def main():
     modelObj = Data.modelObj;
@@ -13,13 +14,14 @@ def main():
     ]
 
     cities = [
-        {"city_name": "delhi", "disease_count": 3, "research_station_count": 0},
-        {"city_name": "london", "disease_count": 1, "research_station_count": 0},
-        {"city_name": "arizona", "disease_count": 2, "research_station_count": 0},
-        {"city_name": "mumbai", "disease_count": 2, "research_station_count": 0},
-        {"city_name": "johannesburg", "disease_count": 2, "research_station_count": 0}
+        {"city_name": "delhi", "disease_count": 3, "research_station_count": 0, "connected_to":['london', 'arizona']},
+        {"city_name": "london", "disease_count": 1, "research_station_count": 0, "connected_to":['delhi', 'mumbai']},
+        {"city_name": "arizona", "disease_count": 2, "research_station_count": 0, "connected_to":['london', 'mumbai']},
+        {"city_name": "mumbai", "disease_count": 2, "research_station_count": 0, "connected_to":['london', 'arizona']},
+        {"city_name": "johannesburg", "disease_count": 2, "research_station_count": 0, "connected_to":['london', 'delhi']}
 
     ]
+
 
     game_variables = {"research_station_count": 0, "total_disease_count": 3}
 
@@ -27,6 +29,8 @@ def main():
 
     modelObj.initModel(newmodel)
     backend = Backend(modelObj)
+
+    GraphUtils.createGraph(modelObj)
 
 
     app = QtGui.QApplication(sys.argv)
