@@ -191,7 +191,7 @@ class Ui_Frame(object):
 
     def get_assistance(self,args):
         query_type = args
-        if self.textInput.toPlainText() is None:
+        if self.textInput.toPlainText() is None or self.textInput.toPlainText() == "":
             self.backend.get_assistance(query_type, self.onASROut, self.onPlanningDone)
         else:
             question_text = str(self.textInput.toPlainText())
