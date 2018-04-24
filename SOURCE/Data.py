@@ -70,6 +70,10 @@ class Model(object):
         playerNo = self.playerNameNumberMap[playerName]
         self.removeCardFromPlayer(playerNo, card)
 
+    def addCardToPlayerByName(self, playerName,card):
+        playerNo = self.playerNameNumberMap[playerName]
+        self.addCardToPlayer(playerNo, card)
+
     def addResearchStation(self, city_name):
         for city in self.model['cities']:
             if util.isEqualStr(city['city_name'], city_name):

@@ -32,12 +32,15 @@ class PlanExecutor(object):
         player = params[0]
         fromCity = params[1]
         toCity = params[2]
+        self.data_model.removeCardFromPlayerByName(player, fromCity)
+        self.data_model.setPlayerLocationByName(player, toCity)
         pass
 
     def fly_by_shuttle(self,params):
         player = params[0]
         fromCity = params[1]
         toCity = params[2]
+        self.data_model.setPlayerLocationByName(player, toCity)
         pass
 
     def treat_disease(self,params):
@@ -50,6 +53,11 @@ class PlanExecutor(object):
         pass
 
     def share_knowledge(self,params):
+        player1 = params[0]
+        player2 = params[1]
+        city = params[2]
+        self.data_model.removeCardFromPlayerByName(player1, city)
+        self.data_model.addCardToPlayerByName(player2, city)
         pass
 
     def cure_disease(self,params):

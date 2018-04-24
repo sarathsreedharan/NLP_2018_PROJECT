@@ -233,7 +233,7 @@ class Ui_Frame(object):
         self.cards_label.setText(_translate("Frame", "Cards", None))
         self.assistButton.setText(_translate("Frame", "Assist Me!", None))
         self.executeButton.setText(_translate("Frame", "Execute", None))
-        self.updateButton.setText(_translate("Frame", "Update Locations", None))
+        self.updateButton.setText(_translate("Frame", "Update", None))
         self.explainButton.setText(_translate("Frame", "Explain Plan", None))
         self.my_question_label.setText(_translate("Frame", "My Question :", None))
 
